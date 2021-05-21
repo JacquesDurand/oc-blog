@@ -1,10 +1,14 @@
 <?php
 
+use App\Manager\CategoryManager;
+
+require_once __DIR__.'/../src/Manager/CategoryManager.php';
+
 $value = "World";
 
-$db = new PDO('pgsql:host=db;port=5432;dbname=mydb', 'legging', 'root');
-
-$databaseTest = ($db->query('SELECT * FROM dockerSample'))->fetchAll(PDO::FETCH_OBJ);
+$managerTest = new CategoryManager();
+$managerTest->createCategory('category4');
+$databaseTest = $managerTest->getAllCategories();
 
 ?>
 

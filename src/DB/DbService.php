@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\DB;
 
-use Dotenv\Dotenv;
-
 require_once(__DIR__ .'/../../vendor/autoload.php');
+
+use Dotenv\Dotenv;
+use PDO;
+
 
 $dotenv = Dotenv::createImmutable(__DIR__.'/../..');
 $dotenv->load();
@@ -37,13 +39,18 @@ class DbService
         $this->setPassword($_ENV['DB_PASSWORD']);
     }
 
-    public function connect(): \PDO
+    public function connect(): PDO
     {
-        return new \PDO(
-            \sprintf('pgsql:host=%s;port=%d;dbname=%s', $this->getHost(),$this->getPort(),$this->getDbName()),
-            $this->getUserName(),
-            $this->getPassword()
-        );
+        try {
+            return new PDO(
+                \sprintf('pgsql:host=%s;port=%d;dbname=%s', $this->getHost(), $this->getPort(), $this->getDbName()),
+                $this->getUserName(),
+                $this->getPassword()
+            );
+        } catch (\PDOException $exception) {
+            ##TODO implement better catch
+            var_dump($exception->getMessage());
+        }
     }
 
     /**
@@ -125,5 +132,4 @@ class DbService
     {
         $this->password = $password;
     }
-
 }
