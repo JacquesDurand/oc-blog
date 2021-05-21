@@ -2,7 +2,7 @@
 
 use App\Manager\CategoryManager;
 
-require_once __DIR__.'/../src/Manager/CategoryManager.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 $value = "World";
 

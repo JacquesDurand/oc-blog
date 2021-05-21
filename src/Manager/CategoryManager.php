@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-require_once __DIR__.'/../Trait/DbInstanceTrait.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
-use App\DbInstanceTrait;
+use App\Traits\DbInstanceTrait;
 use PDO;
 
 class CategoryManager

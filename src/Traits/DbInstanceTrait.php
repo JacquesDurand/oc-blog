@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Traits;
 
-require_once __DIR__.'/../DependencyInjection/DbSingleton.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 
 use App\DependencyInjection\DbSingleton;
