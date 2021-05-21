@@ -53,3 +53,7 @@ $$;
 CREATE TRIGGER user_updated_at_modification_time BEFORE UPDATE ON users FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER post_updated_at_modification_time BEFORE UPDATE ON post FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER comment_updated_at_modification_time BEFORE UPDATE ON comment FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+INSERT INTO category(name) VALUES ('category1');
+INSERT INTO category(name) VALUES ('category2');
+INSERT INTO category(name) VALUES ('category3');
