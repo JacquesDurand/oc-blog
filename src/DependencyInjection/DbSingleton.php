@@ -2,11 +2,16 @@
 
 declare(strict_types=1);
 
+namespace App\DependencyInjection;
+
+require_once __DIR__.'/../DB/DbService.php';
 
 use App\DB\DbService;
+use PDO;
 
 class DbSingleton
 {
+    /** @var DbSingleton */
     private static $instance;
 
     /** @var DbService */
@@ -18,12 +23,11 @@ class DbSingleton
     }
 
     /**
-     * @return mixed
+     * @return static
      */
-    public static function getInstance()
+    public static function getInstance(): DbSingleton
     {
-        if(!self::$instance)
-        {
+        if (!self::$instance) {
             self::$instance = new DbSingleton();
         }
 
@@ -31,11 +35,10 @@ class DbSingleton
     }
 
     /**
-     *@return \PDO
+     *@return PDO
      */
-    public function getConnection(): \PDO
+    public function getConnection(): PDO
     {
         return $this->dbService->connect();
     }
-
 }
