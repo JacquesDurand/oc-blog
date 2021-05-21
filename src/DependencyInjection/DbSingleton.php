@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection;
 
-require_once __DIR__.'/../DB/DbService.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use App\DB\DbService;
 use PDO;
