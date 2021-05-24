@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Model;
-
 
 use DateTime;
 
@@ -142,5 +140,4 @@ class Comment
     {
         $this->updatedAt = $updatedAt;
     }
-
 }

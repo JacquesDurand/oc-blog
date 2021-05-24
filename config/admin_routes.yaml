@@ -1,0 +1,16 @@
+
+##############
+# Categories #
+##############
+
+AdminCategoryShowAction:
+    path: /categories
+    methods: ['GET']
+    controller: App\Controller\Admin\Category\AdminCategoryController
+    action: show
+
+AdminCategoryCreateAction:
+    path: /categories/new
+    methods: ['GET']
+    controller: App\Controller\Admin\Category\AdminCategoryController
+    action: create
