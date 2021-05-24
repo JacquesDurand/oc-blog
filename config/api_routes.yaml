@@ -1,0 +1,10 @@
+
+##############
+# Categories #
+##############
+
+apiCategoryShowAction:
+    path: /categories
+    methods: ['GET']
+    controller: App\Controller\CategoryController
+    action: show
