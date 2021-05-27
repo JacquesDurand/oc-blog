@@ -28,6 +28,7 @@ class Router
             if (!\in_array($request->method, $route->getMethods())) {
                 echo 'Mauvaise methode';
             }
+            //Ici authent middleware
             $controller = $route->getController();
             $controller = new $controller();
             $action = $route->getAction();
@@ -52,7 +53,7 @@ class Router
         $explodedUri = explode('/', $request->uri);
         array_shift($explodedUri);
 
-        foreach ($this->getRoutes() as $routeIndex => $route) {
+        foreach ($this->getRoutes() as $route) {
             if (count($explodedUri) !== count($route->getPath())) {
                 continue;
             }

@@ -136,3 +136,13 @@ AdminUserUpdate:
     action: updateUser
     requirements:
         -   id: '|\d+$|'
+
+##############
+#  Dashboard #
+##############
+
+AdminDashBoard:
+    path: ''
+    methods: ['GET']
+    controller: App\Controller\Admin\DashBoard\AdminDashBoardController
+    action: index

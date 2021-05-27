@@ -27,4 +27,8 @@ class UserController
     public function updateProfile(Request $request)
     {
     }
+
+    public function deleteProfile(Request $request)
+    {
+    }
 }
