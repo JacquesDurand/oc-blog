@@ -7,22 +7,24 @@ namespace App\Controller\Admin\Category;
 require_once __DIR__.'/../../../../vendor/autoload.php';
 
 
+use App\Controller\Twig\AbstractController;
 use App\HTTP\Request;
 use App\Manager\CategoryManager;
 
-class AdminCategoryController
+class AdminCategoryController extends AbstractController
 {
     /** @var CategoryManager */
     private $categoryManager;
 
     public function __construct()
     {
+        parent::__construct();
         $this->categoryManager = new CategoryManager();
     }
 
-    public function show(Request $request): array
+    public function show(Request $request)
     {
-        return  $this->categoryManager->getAllCategories();
+        echo $this->render('/Admin/Category/show.html.twig', [ 'categories' => $this->categoryManager->getAllCategories()]);
     }
 
     public function create(Request $request): void

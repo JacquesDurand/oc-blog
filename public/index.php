@@ -6,6 +6,7 @@ use App\Model\Category;
 use App\Routing\Router;
 
 require_once __DIR__.'/../vendor/autoload.php';
+//require __DIR__.'/../src/templates/Admin/Category/show.html.twig';
 
 $value = "Toto";
 
@@ -18,18 +19,11 @@ $value = "Toto";
 //    $categoryModel->setName($category->name);
 //}
 $request = Request::createFromGlobals();
-echo '<pre>';
 $router = new Router();
-$categories = $router->handleRequest($request);
+$router->handleRequest($request);
 
-?>
-
-<html>
-<body>
-<h1>Hello, <?= $value ?>!</h1>
-
-<?php foreach($categories as $row): ?>
-    <p>Hello, <?= $row->name ?></p>
-<?php endforeach; ?>
-</body>
-</html>
+//$loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/../src/templates');
+//$twig = new \Twig\Environment($loader, ['debug' => true]);
+//
+////$twig->load('Admin/Category/show.html.twig');
+//$twig->render('Admin/Category/show.html.twig', ['categories' => 'toto'] );

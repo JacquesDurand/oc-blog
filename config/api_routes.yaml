@@ -66,11 +66,17 @@ UserGetProfile:
     controller: App\Controller\Api\User\UserController
     action: getProfile
 
-UserUpdateprofile:
+UserUpdateProfile:
     path: /me/update
     methods: ['PUT']
     controller: App\Controller\Api\User\UserController
     action: updateProfile
+
+UserDeleteProfile:
+    path: /me/delete
+    methods: ['DELETE']
+    controller: App\Controller\Api\User\UserController
+    action: deleteProfile
 
 ##############
 #   Auth    #
@@ -93,3 +99,13 @@ Logout:
     methods: ['GET']
     controller: App\Controller\Authentication\AuthenticationController
     action: logout
+
+##############
+#   Auth    #
+##############
+
+Home:
+    path: /
+    methods: ['GET']
+    controller: App\Controller\Home\HomePageController
+    action: index
