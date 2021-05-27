@@ -22,7 +22,7 @@ class Router
     ##TODO rework this function for errors
     public function handleRequest(Request $request)
     {
-        if (null === $route = $this->getRoute($request->uri)) {
+        if (null === $route = $this->getRoute($request)) {
             echo 'Dommage';
         } else {
             if (!\in_array($request->method, $route->getMethods())) {
@@ -44,15 +44,33 @@ class Router
     }
 
     /**
-     * @param string $uri
+     * @param Request $request
      * @return Route|null
      */
-    public function getRoute(string $uri): ?Route
+    public function getRoute(Request $request): ?Route
     {
-        foreach ($this->routes as $route) {
-            if ($uri === $route->getPath()) {
-                return $route;
+        $explodedUri = explode('/', $request->uri);
+        array_shift($explodedUri);
+
+        foreach ($this->getRoutes() as $routeIndex => $route) {
+            if (count($explodedUri) !== count($route->getPath())) {
+                continue;
             }
+            foreach ($route->getPath() as $index => $pathPiece) {
+                if ($pathPiece !== $explodedUri[$index]) {
+                    if (str_starts_with($pathPiece, ':')) {
+                        $requirements = $route->getRequirements()[str_replace(':', '', $pathPiece)];
+                        if (!\preg_match($requirements, $explodedUri[$index])) {
+                            return null;
+                        } else {
+                            $request->addRequirements($explodedUri[$index]);
+                        }
+                    } else {
+                        continue 2;
+                    }
+                }
+            }
+            return $route;
         }
         return null;
     }
@@ -65,26 +83,12 @@ class Router
         $this->routes[] = $route;
     }
 
-    /**
-     * @param string $uri
-     * @return bool
-     */
-    public function hasRoute(string $uri): bool
-    {
-        foreach ($this->routes as $route) {
-            if ($uri === $route->getPath()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private function loadRoutes(): void
     {
         $apiRoutes = \yaml_parse_file(__DIR__ . '/../../config/api_routes.yaml');
         $adminRoutes = \yaml_parse_file(__DIR__ . '/../../config/admin_routes.yaml');
-        $this->createRoutes($apiRoutes);
         $this->createRoutes($adminRoutes, true);
+        $this->createRoutes($apiRoutes);
     }
 
     private function createRoutes(array $routes, bool $isAdmin = false): void
@@ -100,6 +104,11 @@ class Router
             $route->setAction($routeToLoad['action']);
             foreach ($routeToLoad['methods'] as $method) {
                 $route->addMethod($method);
+            }
+            if (!empty($routeToLoad['requirements'])) {
+                foreach ($routeToLoad['requirements'] as $requirement) {
+                    $route->addRequirement($requirement);
+                }
             }
 
             $this->addRoute($route);

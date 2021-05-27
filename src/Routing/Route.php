@@ -6,7 +6,7 @@ namespace App\Routing;
 
 class Route
 {
-    /** @var string */
+    /** @var array */
     private $path;
 
     /** @var string */
@@ -18,7 +18,9 @@ class Route
     /** @var array */
     private $methods;
 
-    private const API_PREFIX = '/api';
+    /** @var array */
+    private $requirements = [];
+
     private const ADMIN_PREFIX = '/admin';
 
 
@@ -55,9 +57,9 @@ class Route
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getPath(): string
+    public function getPath(): array
     {
         return $this->path;
     }
@@ -67,7 +69,8 @@ class Route
      */
     public function setAdminPath(string $path): void
     {
-        $this->path = self::ADMIN_PREFIX.$path;
+        $this->path = explode('/', self::ADMIN_PREFIX.$path);
+        array_shift($this->path);
     }
 
     /**
@@ -75,7 +78,8 @@ class Route
      */
     public function setApiPath(string $path): void
     {
-        $this->path = self::API_PREFIX.$path;
+        $this->path = explode('/', $path);
+        array_shift($this->path);
     }
 
     /**
@@ -93,5 +97,28 @@ class Route
     public function addMethod(string $method): void
     {
         $this->methods[] = $method;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequirements(): array
+    {
+        return $this->requirements;
+    }
+
+    public function hasRequirements(): bool
+    {
+        return (!empty($this->requirements));
+    }
+
+    /**
+     * @param array $requirement
+     */
+    public function addRequirement(array $requirement): void
+    {
+        if ($requirement) {
+            $this->requirements = array_merge($this->requirements, $requirement);
+        }
     }
 }

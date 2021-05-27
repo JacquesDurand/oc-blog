@@ -18,6 +18,7 @@ $value = "Toto";
 //    $categoryModel->setName($category->name);
 //}
 $request = Request::createFromGlobals();
+echo '<pre>';
 $router = new Router();
 $categories = $router->handleRequest($request);
 

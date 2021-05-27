@@ -3,8 +3,93 @@
 # Categories #
 ##############
 
-apiCategoryShowAction:
+CategoryGetAll:
     path: /categories
     methods: ['GET']
-    controller: App\Controller\CategoryController
+    controller: App\Controller\Api\Category\CategoryController
     action: show
+
+##############
+#  Comments  #
+##############
+
+CommentAddOnPost:
+    path: /posts/:slug/comment
+    methods: ['POST']
+    controller: App\Controller\Api\Comment\CommentController
+    action: addCommentOnPost
+    requirements:
+        - slug: '|[^?.A-Z]+$|'
+
+
+##############
+#   Posts    #
+##############
+
+PostGetAll:
+    path: /posts
+    methods: ['GET']
+    controller: App\Controller\Api\Post\PostController
+    action: getAllPosts
+
+PostGetAllByCategory:
+    path: /posts/category/:name
+    methods: ['GET']
+    controller: App\Controller\Api\Post\PostController
+    action: getAllPostsByCategory
+    requirements:
+        - name: '|[^?.A-Z]+$|'
+
+PostGetAllByAuthor:
+    path: /posts/author/:id
+    methods: ['GET']
+    controller: App\Controller\Api\Post\PostController
+    action: getAllPostsByAuthor
+    requirements:
+        - id: '|\d+$|'
+
+PostGetSingle:
+    path: /posts/:slug
+    methods: ['GET']
+    controller: App\Controller\Api\Post\PostController
+    action: getSinglePost
+    requirements:
+        - slug: '|[^?.A-Z]+$|'
+
+##############
+#   Users    #
+##############
+
+UserGetProfile:
+    path: /me
+    methods: ['GET']
+    controller: App\Controller\Api\User\UserController
+    action: getProfile
+
+UserUpdateprofile:
+    path: /me/update
+    methods: ['PUT']
+    controller: App\Controller\Api\User\UserController
+    action: updateProfile
+
+##############
+#   Auth    #
+##############
+
+Register:
+    path: /register
+    methods: ['POST']
+    controller: App\Controller\Authentication\AuthenticationController
+    action: register
+
+Login:
+    path: /login
+    methods: ['POST']
+    controller: App\Controller\Authentication\AuthenticationController
+    action: login
+
+Logout:
+    path: /logout
+    methods: ['GET']
+    controller: App\Controller\Authentication\AuthenticationController
+    action: logout

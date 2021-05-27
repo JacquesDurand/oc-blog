@@ -14,3 +14,125 @@ AdminCategoryCreateAction:
     methods: ['GET']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: create
+
+AdminCategoryDeleteAction:
+    path: /categories/:id/delete
+    methods: ['DELETE']
+    controller: App\Controller\Admin\Category\AdminCategoryController
+    action: delete
+    requirements:
+        - id: '|\d+$|'
+
+##############
+#   Comments  #
+##############
+
+AdminCommentGetAll:
+    path: /comments
+    methods: ['GET']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: getAllComments
+
+AdminCommentGetOne:
+    path: /comments/:id
+    methods: ['GET']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: getCommentById
+    requirements:
+        - id: '|\d+$|'
+
+AdminCommentModerate:
+    path: /comments/:id/moderate
+    methods: ['PUT']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: moderate
+    requirements:
+        - id: '|\d+$|'
+
+AdminCommentApprove:
+    path: /comments/:id/approve
+    methods: ['PUT']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: approve
+    requirements:
+        - id: '|\d+$|'
+
+##############
+#    Posts   #
+##############
+
+AdminPostGetAll:
+    path: /posts
+    methods: ['GET']
+    controller: App\Controller\Admin\Post\AdminPostController
+    action: getAllPosts
+
+AdminPostGetOne:
+    path: /posts/:id
+    methods: ['GET']
+    controller: App\Controller\Admin\Post\AdminPostController
+    action: getPostById
+    requirements:
+        - id: '|\d+$|'
+
+AdminPostAdd:
+    path: /posts/new
+    methods: ['POST']
+    controller: App\Controller\Admin\Post\AdminPostController
+    action: addPost
+
+AdminPostRemove:
+    path: /posts/:id/delete
+    methods: ['DELETE']
+    controller: App\Controller\Admin\Post\AdminPostController
+    action: removePost
+    requirements:
+        - id: '|\d+$|'
+
+AdminPostUpdate:
+    path: /posts/:id/update
+    methods: ['PUT']
+    controller: App\Controller\Admin\Post\AdminPostController
+    action: updatePost
+    requirements:
+        - id: '|\d+$|'
+
+##############
+#    Users   #
+##############
+
+AdminUserGetAll:
+    path: /users
+    methods: ['GET']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: getAllUsers
+
+AdminUserGetOne:
+    path: /users/:id
+    methods: ['GET']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: getUserById
+    requirements:
+        -   id: '|\d+$|'
+
+AdminUserAdd:
+    path: /users
+    methods: ['POST']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: addUser
+
+AdminUserRemove:
+    path: /users/:id/delete
+    methods: ['DELETE']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: deleteUser
+    requirements:
+        -   id: '|\d+$|'
+
+AdminUserUpdate:
+    path: /users/:id/update
+    methods: ['PUT']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: updateUser
+    requirements:
+        -   id: '|\d+$|'
