@@ -24,13 +24,17 @@ class Request
     /** @var array|null  */
     public $session;
 
+    /** @var array|null */
+    public $requirements;
+
     public function __construct(
         string $method,
         string $uri,
         array $request,
         array $query,
         ?array $cookies,
-        ?array $session
+        ?array $session,
+        ?array $requirements
     ) {
         $this->method = $method;
         $this->uri = $uri;
@@ -38,8 +42,13 @@ class Request
         $this->query = $query;
         $this->cookies = $cookies;
         $this->session = $session;
+        $this->requirements = $requirements;
     }
 
+    /**
+     * Create a request object from superGlobals
+     * @return Request
+     */
     public static function createFromGlobals(): Request
     {
         return new self(
@@ -48,7 +57,13 @@ class Request
             $_POST,
             $_GET,
             $_COOKIE,
-            $_SESSION
+            $_SESSION,
+            []
         );
+    }
+
+    public function addRequirements($requirement): void
+    {
+        $this->requirements[] = $requirement;
     }
 }

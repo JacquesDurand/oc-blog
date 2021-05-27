@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Category;
+namespace App\Controller\Api\Category;
 
 require_once __DIR__.'/../../../../vendor/autoload.php';
-
 
 use App\HTTP\Request;
 use App\Manager\CategoryManager;
 
-class AdminCategoryController
+class CategoryController
 {
     /** @var CategoryManager */
     private $categoryManager;
@@ -21,16 +20,6 @@ class AdminCategoryController
     }
 
     public function show(Request $request): array
-    {
-        return  $this->categoryManager->getAllCategories();
-    }
-
-    public function create(Request $request): void
-    {
-        $this->categoryManager->createCategory('category5');
-    }
-
-    public function delete(Request $request)
     {
         return  $this->categoryManager->getAllCategories();
     }
