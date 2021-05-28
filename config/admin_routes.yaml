@@ -11,7 +11,7 @@ AdminCategoryShowAction:
 
 AdminCategoryCreateAction:
     path: /categories/new
-    methods: ['GET']
+    methods: ['POST']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: create
 
@@ -20,6 +20,14 @@ AdminCategoryDeleteAction:
     methods: ['DELETE']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: delete
+    requirements:
+        - id: '|\d+$|'
+
+AdminCategoryUpdateAction:
+    path: /categories/:id/update
+    methods: ['PUT']
+    controller: App\Controller\Admin\Category\AdminCategoryController
+    action: update
     requirements:
         - id: '|\d+$|'
 
