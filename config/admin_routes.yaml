@@ -124,8 +124,8 @@ AdminUserGetOne:
         -   id: '|\d+$|'
 
 AdminUserAdd:
-    path: /users
-    methods: ['POST']
+    path: /users/new
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\User\AdminUserController
     action: addUser
 
@@ -139,7 +139,7 @@ AdminUserRemove:
 
 AdminUserUpdate:
     path: /users/:id/update
-    methods: ['PUT']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\User\AdminUserController
     action: updateUser
     requirements:

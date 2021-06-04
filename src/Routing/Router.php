@@ -62,7 +62,7 @@ class Router
                     if (str_starts_with($pathPiece, ':')) {
                         $requirements = $route->getRequirements()[str_replace(':', '', $pathPiece)];
                         if (!\preg_match($requirements, $explodedUri[$index])) {
-                            return null;
+                            continue 2;
                         } else {
                             $request->addRequirements($explodedUri[$index]);
                         }
