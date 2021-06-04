@@ -11,13 +11,13 @@ AdminCategoryShowAction:
 
 AdminCategoryCreateAction:
     path: /categories/new
-    methods: ['POST']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: create
 
 AdminCategoryDeleteAction:
     path: /categories/:id/delete
-    methods: ['DELETE']
+    methods: ['GET']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: delete
     requirements:
@@ -25,7 +25,7 @@ AdminCategoryDeleteAction:
 
 AdminCategoryUpdateAction:
     path: /categories/:id/update
-    methods: ['PUT']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\Category\AdminCategoryController
     action: update
     requirements:
@@ -131,7 +131,7 @@ AdminUserAdd:
 
 AdminUserRemove:
     path: /users/:id/delete
-    methods: ['DELETE']
+    methods: ['GET']
     controller: App\Controller\Admin\User\AdminUserController
     action: deleteUser
     requirements:

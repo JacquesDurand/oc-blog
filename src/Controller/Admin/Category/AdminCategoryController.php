@@ -30,8 +30,24 @@ class AdminCategoryController extends AbstractController
 
     public function create(Request $request): void
     {
-        $name = $request->request['name'];
-        $this->categoryManager->createCategory($name);
+        switch ($request->method) {
+            case 'GET':
+                $this->generateCsrfToken($request);
+                echo $this->render('/Admin/Category/form.html.twig', [
+                    'token' => $_SESSION['csrf_token']
+                ]);
+                break;
+            case 'POST':
+                if (!$this->verifyCsrfToken($request)) {
+                    echo $this->render('Errors/Csrf.html.twig');
+                } else {
+                    $this->cleanInput($request);
+                    $name = $request->request['name'];
+                    $this->categoryManager->createCategory($name);
+
+                    header("Location: http://localhost/admin/categories");
+                }
+        }
     }
 
     public function delete(Request $request)
@@ -48,12 +64,33 @@ class AdminCategoryController extends AbstractController
     public function update(Request $request)
     {
         $id = (int)$request->requirements[0];
-        $name = $request->request['name'];
-        try {
-            $this->categoryManager->updateCategory($id, $name);
-            echo $this->render('/Admin/Category/show.html.twig', ['categories' => $this->categoryManager->getAllCategories()]);
-        } catch (ResourceNotFoundException $exception) {
-            echo $this->render('Errors/404_resource.html.twig');
+
+        switch ($request->method) {
+            case 'GET':
+                if ($category = $this->categoryManager->getCategoryById($id)) {
+                    $this->generateCsrfToken($request);
+                    echo $this->render('/Admin/Category/update.html.twig', [
+                        'category' => $category,
+                        'token' => $_SESSION['csrf_token']
+                    ]);
+                } else {
+                    echo $this->render('Errors/404_resource.html.twig');
+                }
+                break;
+
+            case 'POST':
+                if (!$this->verifyCsrfToken($request)) {
+                    echo $this->render('Errors/Csrf.html.twig');
+                } else {
+                    $this->cleanInput($request);
+                    $name = $request->request['name'];
+                    try {
+                        $this->categoryManager->updateCategory($id, $name);
+                        echo $this->render('/Admin/Category/show.html.twig', ['categories' => $this->categoryManager->getAllCategories()]);
+                    } catch (ResourceNotFoundException $exception) {
+                        echo $this->render('Errors/404_resource.html.twig');
+                    }
+                }
         }
     }
 }

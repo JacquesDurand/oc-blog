@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 use App\HTTP\Request;
 use App\Manager\CategoryManager;
 use App\Model\Category;
