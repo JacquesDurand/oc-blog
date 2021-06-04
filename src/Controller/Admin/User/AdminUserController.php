@@ -8,7 +8,6 @@ use App\Controller\Twig\AbstractController;
 use App\Exception\ResourceNotFoundException;
 use App\HTTP\Request;
 use App\Manager\UserManager;
-use App\Model\User;
 
 require_once __DIR__.'/../../../../vendor/autoload.php';
 
@@ -36,14 +35,22 @@ class AdminUserController extends AbstractController
 
     public function addUser(Request $request)
     {
-        ##TODO crypt password + verify data
+        ##TODO crypt password
         switch ($request->method) {
             case 'GET':
-                echo $this->render('Admin/User/form.html.twig');
+                $this->generateCsrfToken($request);
+                echo $this->render('Admin/User/form.html.twig', [
+                    'token' => $request->session['csrf_token']
+                ]);
                 break;
             case 'POST':
-                $this->userManager->createUser($request->request);
-                header("Location: http://localhost/admin/users");
+                if (!$this->verifyCsrfToken($request)) {
+                    echo $this->render('Errors/Csrf.html.twig');
+                } else {
+                    $this->cleanInput($request);
+                    $this->userManager->createUser($request->request);
+                    header("Location: http://localhost/admin/users");
+                }
         }
     }
 
@@ -73,19 +80,26 @@ class AdminUserController extends AbstractController
         switch ($request->method) {
             case 'GET':
                 if ($user = $this->userManager->getUserById($id)) {
+                    $this->generateCsrfToken($request);
                     echo $this->render('/Admin/User/update.html.twig', [
-                        'user' => $user
+                        'user' => $user,
+                        'token' => $_SESSION['csrf_token']
                     ]);
                 } else {
                     echo $this->render('Errors/404_resource.html.twig');
                 }
                 break;
             case 'POST':
-                try {
-                    $this->userManager->updateUser($id, $request->request);
-                    header("Location: http://localhost/admin/users");
-                } catch (ResourceNotFoundException $exception) {
-                    echo $this->render('Errors/404_resource.html.twig');
+                if (!$this->verifyCsrfToken($request)) {
+                    echo $this->render('Errors/Csrf.html.twig');
+                } else {
+                    try {
+                        $this->cleanInput($request);
+                        $this->userManager->updateUser($id, $request->request);
+                        header("Location: http://localhost/admin/users");
+                    } catch (ResourceNotFoundException $exception) {
+                        echo $this->render('Errors/404_resource.html.twig');
+                    }
                 }
         }
     }

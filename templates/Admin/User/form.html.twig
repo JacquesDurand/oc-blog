@@ -10,6 +10,7 @@
 <body>
 
 <form action="/admin/users/new" method="POST">
+    <input type="hidden" name="token" value="{{ token }}"/>
     <label for="username">Pseudo</label>
     <input type="text" name="username" id="username">
     <label for="email">Email</label>
