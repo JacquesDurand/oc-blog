@@ -40,7 +40,7 @@ class AdminUserController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 echo $this->render('Admin/User/form.html.twig', [
-                    'token' => $request->session['csrf_token']
+                    'token' => $_SESSION['csrf_token']
                 ]);
                 break;
             case 'POST':

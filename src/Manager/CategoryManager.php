@@ -9,11 +9,15 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use App\Exception\ResourceNotFoundException;
 use App\Traits\DbInstanceTrait;
 use PDO;
-use Symfony\Component\Console\Exception\NamespaceNotFoundException;
 
 class CategoryManager
 {
     use DbInstanceTrait;
+
+    public function __construct()
+    {
+        $this->connect();
+    }
 
     public function getAllCategories(): array
     {

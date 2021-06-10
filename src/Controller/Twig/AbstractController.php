@@ -14,10 +14,10 @@ require_once __DIR__.'/../../../vendor/autoload.php';
 abstract class AbstractController
 {
     /** @var FilesystemLoader */
-    private $fileLoader;
+    private FilesystemLoader $fileLoader;
 
     /** @var Environment */
-    private $twig;
+    private Environment $twig;
 
     public function __construct()
     {
