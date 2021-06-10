@@ -11,10 +11,11 @@ use PDO;
 trait DbInstanceTrait
 {
     /** @var PDO  */
-    protected $dbInstance;
+    protected PDO $dbInstance;
 
-    public function __construct()
+    public function connect()
     {
         $this->dbInstance = DbSingleton::getInstance()->getConnection();
+        $this->dbInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 }

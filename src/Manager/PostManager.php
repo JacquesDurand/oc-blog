@@ -13,6 +13,11 @@ class PostManager
 {
     use DbInstanceTrait;
 
+    public function __construct()
+    {
+        $this->connect();
+    }
+
     public function getAllPosts(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM post');

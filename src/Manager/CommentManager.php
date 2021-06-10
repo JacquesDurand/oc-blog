@@ -13,6 +13,11 @@ class CommentManager
 {
     use DbInstanceTrait;
 
+    public function __construct()
+    {
+        $this->connect();
+    }
+
     public function getAllComments(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment');

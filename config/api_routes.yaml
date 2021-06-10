@@ -84,13 +84,13 @@ UserDeleteProfile:
 
 Register:
     path: /register
-    methods: ['POST']
+    methods: ['GET', 'POST']
     controller: App\Controller\Authentication\AuthenticationController
     action: register
 
 Login:
     path: /login
-    methods: ['POST']
+    methods: ['GET', 'POST']
     controller: App\Controller\Authentication\AuthenticationController
     action: login
 
@@ -101,7 +101,7 @@ Logout:
     action: logout
 
 ##############
-#   Auth    #
+#   Home    #
 ##############
 
 Home:
