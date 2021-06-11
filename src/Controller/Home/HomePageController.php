@@ -14,9 +14,6 @@ class HomePageController extends AbstractController
 {
     public function index(Request $request)
     {
-        echo '<pre>';
-        var_dump($request->session);
-        var_dump($_SESSION);
         echo $this->render('Home/index.html.twig', []);
     }
 }

@@ -94,6 +94,7 @@ class AuthenticationController extends AbstractController
                     /** @var User $user */
                     $user = $this->userManager->getUserByUsername($request->request['username']);
                     $_SESSION['userId'] = $user->getId();
+                    $_SESSION['role'] = $user->getRole();
                     header('Location: http://localhost');
                 }
         }

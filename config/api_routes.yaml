@@ -20,6 +20,7 @@ CommentAddOnPost:
     action: addCommentOnPost
     requirements:
         - slug: '|[^?.A-Z]+$|'
+    auth: verified
 
 
 ##############
@@ -65,18 +66,21 @@ UserGetProfile:
     methods: ['GET']
     controller: App\Controller\Api\User\UserController
     action: getProfile
+    auth: verified
 
 UserUpdateProfile:
     path: /me/update
     methods: ['PUT']
     controller: App\Controller\Api\User\UserController
     action: updateProfile
+    auth: verified
 
 UserDeleteProfile:
     path: /me/delete
     methods: ['DELETE']
     controller: App\Controller\Api\User\UserController
     action: deleteProfile
+    auth: verified
 
 ##############
 #   Auth    #
@@ -99,6 +103,7 @@ Logout:
     methods: ['GET']
     controller: App\Controller\Authentication\AuthenticationController
     action: logout
+    auth: verified
 
 ##############
 #   Home    #

@@ -64,7 +64,6 @@ class LoginFormValidator
         if ($user->getRole() === Role::ROLE_REMOVED) {
             $error->setAccountRemoved(true);
         }
-        var_dump($error);
         return $error;
     }
 }
