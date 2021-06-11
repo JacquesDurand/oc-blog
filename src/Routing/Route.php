@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace App\Routing;
 
+use App\Authentication\Role;
+
 class Route
 {
     /** @var array */
-    private $path;
+    private array $path;
 
     /** @var string */
-    private $controller;
+    private string $controller;
 
     /** @var string */
-    private $action;
+    private string $action;
 
     /** @var array */
-    private $methods;
+    private array $methods;
 
     /** @var array */
-    private $requirements = [];
+    private array $requirements = [];
+
+    /** @var int  */
+    private int $authLevel = Role::ROLE_ADMIN;
 
     private const ADMIN_PREFIX = '/admin';
 
@@ -120,5 +125,21 @@ class Route
         if ($requirement) {
             $this->requirements = array_merge($this->requirements, $requirement);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getAuthLevel(): int
+    {
+        return $this->authLevel;
+    }
+
+    /**
+     * @param int $authLevel
+     */
+    public function setAuthLevel(int $authLevel): void
+    {
+        $this->authLevel = $authLevel;
     }
 }

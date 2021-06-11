@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Routing;
 
+use App\Authentication\Role;
 use App\HTTP\Request;
 
 require_once __DIR__.'/../../vendor/autoload.php';
@@ -28,7 +29,7 @@ class Router
             if (!\in_array($request->method, $route->getMethods())) {
                 echo 'Mauvaise methode';
             }
-            //Ici authent middleware
+            $this->checkAuth($route);
             $controller = $route->getController();
             $controller = new $controller();
             $action = $route->getAction();
@@ -98,8 +99,21 @@ class Router
             $route = new Route();
             if ($isAdmin) {
                 $route->setAdminPath($routeToLoad['path']);
+                $route->setAuthLevel(Role::ROLE_ADMIN);
             } else {
                 $route->setApiPath($routeToLoad['path']);
+                if (isset($routeToLoad['auth']) && !empty($routeToLoad['auth'])) {
+                    switch ($routeToLoad['auth']) {
+                        case 'verified':
+                            $route->setAuthLevel(Role::ROLE_USER_VERIFIED);
+                            break;
+                        case 'admin':
+                            $route->setAuthLevel(Role::ROLE_ADMIN);
+                            break;
+                    }
+                } else {
+                    $route->setAuthLevel(Role::ROLE_REMOVED);
+                }
             }
             $route->setController($routeToLoad['controller']);
             $route->setAction($routeToLoad['action']);
@@ -113,6 +127,32 @@ class Router
             }
 
             $this->addRoute($route);
+        }
+    }
+
+    private function checkAuth(Route $route)
+    {
+        if (Role::ROLE_REMOVED === $route->getAuthLevel()) {
+            return;
+        }
+        if (!isset($_SESSION['userId']) || empty($_SESSION['userId'])) {
+            header('Location: http://localhost/login');
+        } else {
+            switch ($route->getAuthLevel()) {
+                case Role::ROLE_USER_VERIFIED:
+                    if (!isset($_SESSION['role']) || empty($_SESSION['role']) || Role::ROLE_USER_VERIFIED > $_SESSION['role']) {
+                        header('Location: http://localhost/login');
+                    } else {
+                        return;
+                    }
+                    break;
+                case Role::ROLE_ADMIN:
+                    if (!isset($_SESSION['role']) || empty($_SESSION['role']) || Role::ROLE_ADMIN > $_SESSION['role']) {
+                        header('Location: http://localhost/login');
+                    } else {
+                        return;
+                    }
+            }
         }
     }
 }
