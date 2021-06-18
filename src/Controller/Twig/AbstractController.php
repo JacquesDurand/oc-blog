@@ -54,7 +54,7 @@ abstract class AbstractController
     {
         $cleanRequest = [];
         foreach ($request->request as $key => $value) {
-            $value = addslashes(trim(htmlentities(htmlspecialchars($value))));
+            $value = addslashes(trim(htmlspecialchars($value)));
             $cleanRequest[$key] = $value;
         }
         unset($request->request);

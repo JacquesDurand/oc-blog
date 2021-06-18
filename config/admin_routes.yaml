@@ -85,13 +85,13 @@ AdminPostGetOne:
 
 AdminPostAdd:
     path: /posts/new
-    methods: ['POST']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\Post\AdminPostController
     action: addPost
 
 AdminPostRemove:
     path: /posts/:id/delete
-    methods: ['DELETE']
+    methods: ['GET']
     controller: App\Controller\Admin\Post\AdminPostController
     action: removePost
     requirements:
@@ -99,7 +99,7 @@ AdminPostRemove:
 
 AdminPostUpdate:
     path: /posts/:id/update
-    methods: ['PUT']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\Post\AdminPostController
     action: updatePost
     requirements:
