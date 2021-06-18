@@ -23,7 +23,8 @@ class CategoryManager
     {
         $req = $this->dbInstance->prepare('SELECT * FROM category');
         $req->execute();
-        return $req->fetchAll(PDO::FETCH_OBJ);
+        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Category');
+        return $req->fetchAll();
     }
 
     public function getCategoryById(int $id)
@@ -31,7 +32,8 @@ class CategoryManager
         $req = $this->dbInstance->prepare('SELECT * FROM category WHERE id=:id');
         $req->bindValue(':id', $id);
         $req->execute();
-        return $req->fetch(PDO::FETCH_ASSOC);
+        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Category');
+        return $req->fetch();
     }
 
     public function createCategory(string $name): void

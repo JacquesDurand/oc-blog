@@ -1,0 +1,25 @@
+<h1>Post {{ post.id }}</h1>
+
+    <ul>
+        <li>
+            {{ post.title }}
+        </li>
+        <li>
+            {{ post.lede }}
+        </li>
+        <li>
+            {{ post.content }}
+        </li>
+        <li>
+            {{ post.category.name }}
+        </li>
+        <li>
+            {{ post.author.username }}
+        </li>
+        <li>
+            {{ post.state }}
+        </li>
+        <li>
+            {{ post.slug }}
+        </li>
+    </ul>

@@ -35,7 +35,6 @@ class AdminUserController extends AbstractController
 
     public function addUser(Request $request)
     {
-        ##TODO crypt password
         switch ($request->method) {
             case 'GET':
                 $this->generateCsrfToken($request);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Cocur\Slugify\Slugify;
 use DateTime;
 
 class Post
@@ -116,6 +117,19 @@ class Post
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function slugify(): void
+    {
+        $slugify = new Slugify();
+        if (null !== $this->getTitle()) {
+            $slug = $slugify->slugify($this->getTitle());
+            $slug = substr($slug, 0, 50);
+            $words = explode('-', $slug);
+            array_pop($words);
+            $slug = implode('-', $words);
+            $this->setSlug($slug);
+        }
     }
 
     /**

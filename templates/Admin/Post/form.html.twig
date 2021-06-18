@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<form action="/admin/posts/new" method="POST">
+    <input type="hidden" name="token" value="{{ token }}"/>
+    <label for="title">Titre</label>
+    <input type="text" name="title" id="title">
+    <label for="lede">Chapo</label>
+    <input type="text" name="lede" id="lede">
+    <label for="content">Contenu</label>
+    <textarea name="content" id="content"></textarea>
+    <label for="state">Etat</label>
+    <input type="number" name="state" id="state">
+    <label for="category">Categorie</label>
+    <select name="category" id="category">
+        <option value="1">Category 1</option>
+        <option value="2">Category 2</option>
+        <option value="3">Category 3</option>
+    </select>
+    <label for="author">Auteur</label>
+    <select name="author" id="author">
+        <option value="1">Auteur 1</option>
+        <option value="2">Auteur 2</option>
+        <option value="3">Auteur 3</option>
+    </select>
+    <input type="submit">
+</form>
+
+</body>
+</html>
