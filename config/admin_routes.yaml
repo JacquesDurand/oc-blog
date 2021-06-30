@@ -49,9 +49,25 @@ AdminCommentGetOne:
     requirements:
         - id: '|\d+$|'
 
+AdminCommentAddToPost:
+    path: /posts/:id/comment
+    methods: ['GET', 'POST']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: addComment
+    requirements:
+        - id: '|\d+$|'
+
+AdminCommentUpdate:
+    path: /comments/:id/update
+    methods: ['GET', 'POST']
+    controller: App\Controller\Admin\Comment\AdminCommentController
+    action: updateComment
+    requirements:
+        - id: '|\d+$|'
+
 AdminCommentModerate:
     path: /comments/:id/moderate
-    methods: ['PUT']
+    methods: ['GET', 'POST']
     controller: App\Controller\Admin\Comment\AdminCommentController
     action: moderate
     requirements:
@@ -59,7 +75,7 @@ AdminCommentModerate:
 
 AdminCommentApprove:
     path: /comments/:id/approve
-    methods: ['PUT']
+    methods: ['GET']
     controller: App\Controller\Admin\Comment\AdminCommentController
     action: approve
     requirements:

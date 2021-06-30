@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS post (
 );
 
 CREATE TABLE IF NOT EXISTS comment (
+    id serial PRIMARY KEY NOT NULL,
     content TEXT NOT NULL,
     state INT NOT NULL,
     moderation_reason VARCHAR (255),

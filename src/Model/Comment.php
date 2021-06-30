@@ -8,13 +8,16 @@ use DateTime;
 
 class Comment
 {
+    /** @var int */
+    private $id;
+
     /** @var string */
     private $content;
 
     /** @var int */
     private $state;
 
-    /** @var string */
+    /** @var string|null */
     private $moderationReason;
 
     /** @var User */
@@ -28,6 +31,26 @@ class Comment
 
     /** @var DateTime */
     private $updatedAt;
+
+    public const STATE_MODERATED = 0;
+    public const STATE_AWAITING_MODERATION = 1;
+    public const STATE_VALIDATED = 2;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return string
@@ -64,15 +87,15 @@ class Comment
     /**
      * @return string
      */
-    public function getModerationReason(): string
+    public function getModerationReason(): ?string
     {
         return $this->moderationReason;
     }
 
     /**
-     * @param string $moderationReason
+     * @param ?string $moderationReason
      */
-    public function setModerationReason(string $moderationReason): void
+    public function setModerationReason(?string $moderationReason): void
     {
         $this->moderationReason = $moderationReason;
     }

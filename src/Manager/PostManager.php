@@ -41,8 +41,8 @@ class PostManager
         $req = $this->dbInstance->prepare('SELECT * FROM post WHERE id=:id');
         $req->bindValue(':id', $id);
         $req->execute();
-        if ($req->fetch()) {
-            return $this->hydratePostWithFk($req->fetch());
+        if ($result = $req->fetch()) {
+            return $this->hydratePostWithFk($result);
         } else {
             return false;
         }
@@ -53,8 +53,8 @@ class PostManager
         $req = $this->dbInstance->prepare('SELECT * FROM post WHERE slug=:slug');
         $req->bindValue(':slug', $slug);
         $req->execute();
-        if ($req->fetch()) {
-            return $this->hydratePostWithFk($req->fetch());
+        if ($result = $req->fetch()) {
+            return $this->hydratePostWithFk($result);
         } else {
             return false;
         }
