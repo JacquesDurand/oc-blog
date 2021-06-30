@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Comment</title>
+</head>
+<body>
+
+<form action="/admin/comments/{{ comment.id }}/moderate" method="POST">
+    <input type="hidden" name="token" value="{{ token }}"/>
+    <label for="content">Contenu</label>
+    <textarea name="content" id="content">{{ comment.content }}</textarea>
+    <label for="moderationReason">Modération</label>
+    <textarea name="moderationReason" id="moderationReason">{{ comment.moderationReason }}</textarea>
+    <label for="state">Etat</label>
+    <input type="number" name="state" id="state" value="{{ comment.state }}">
+    <label for="author">Auteur</label>
+    <select name="author" id="author">
+        <option value="1">Auteur 1</option>
+        <option value="2">Auteur 2</option>
+        <option value="3">Auteur 3</option>
+    </select>
+    <input type="submit">
+</form>
+
+</body>
+</html>

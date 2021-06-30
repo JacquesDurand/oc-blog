@@ -1,0 +1,25 @@
+<h1>Comments</h1>
+
+{% for comment in comments %}
+    <ul>
+        <li>
+            {{ comment.id }}
+        </li>
+        <li>
+            {{ comment.content }}
+        </li>
+        <li>
+            {{ comment.moderationReason }}
+        </li>
+        <li>
+            {{ comment.author.username }}
+        </li>
+        <li>
+            {{ comment.post.title }}
+        </li>
+        <li>
+            {{ comment.state }}
+        </li>
+    </ul>
+    <a href="http://localhost/admin/comments/{{ comment.id }}/approve">Approve</a>
+{% endfor %}
