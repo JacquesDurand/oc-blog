@@ -98,15 +98,61 @@ class UserManager
      */
     public function updateUser(int $id, array $data): void
     {
+        $hashedPassword = $this->securityService->hashPassword($data['password']);
+
         if ($this->getUserById($id)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE users SET username=:username, email=:email, password=:password, role=:role
                      WHERE id=:id'
             );
             $req->bindValue(':username', $data['username']);
-            $req->bindValue(':password', $data['password']);
+            $req->bindValue(':password', $hashedPassword);
             $req->bindValue(':email', $data['email']);
             $req->bindValue(':role', $data['role']);
+            $req->bindValue(':id', $id);
+            $req->execute();
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @throws ResourceNotFoundException
+     */
+    public function updateUserWithoutPassword(int $id, array $data): void
+    {
+        if ($this->getUserById($id)) {
+            $req = $this->dbInstance->prepare(
+                'UPDATE users SET username=:username, email=:email, role=:role
+                     WHERE id=:id'
+            );
+            $req->bindValue(':username', $data['username']);
+            $req->bindValue(':email', $data['email']);
+            $req->bindValue(':role', $data['role']);
+            $req->bindValue(':id', $id);
+            $req->execute();
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param string $password
+     * @throws ResourceNotFoundException
+     */
+    public function updatePassword(int $id, string $password): void
+    {
+        $hashedPassword = $this->securityService->hashPassword($password);
+
+        if ($this->getUserById($id)) {
+            $req = $this->dbInstance->prepare(
+                'UPDATE users SET password = :password
+                     WHERE id=:id'
+            );
+            $req->bindValue(':password', $hashedPassword);
             $req->bindValue(':id', $id);
             $req->execute();
         } else {

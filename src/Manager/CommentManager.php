@@ -9,6 +9,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use App\Exception\ResourceNotFoundException;
 use App\HTTP\Request;
 use App\Model\Comment;
+use App\Model\Post;
+use App\Model\User;
 use App\Traits\DbInstanceTrait;
 use PDO;
 use PDOException;
@@ -125,6 +127,23 @@ class CommentManager
         } else {
             throw new ResourceNotFoundException();
         }
+    }
+
+    public function getCommentsForPost(Post $post): array
+    {
+        $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE post_id =:id AND state = :state');
+        $req->bindValue(':id', $post->getId());
+        $req->bindValue(':state', Comment::STATE_VALIDATED);
+        $req->execute();
+        return $this->hydrateCommentsWithFk($req->fetchAll());
+    }
+
+    public function getCommentsForAuthor(User $user): array
+    {
+        $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE author_id =:id');
+        $req->bindValue(':id', $user->getId());
+        $req->execute();
+        return $this->hydrateCommentsWithFk($req->fetchAll());
     }
 
     private function hydrateCommentsWithFk(array $dbComments): array

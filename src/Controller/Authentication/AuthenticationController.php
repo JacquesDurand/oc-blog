@@ -102,6 +102,8 @@ class AuthenticationController extends AbstractController
 
     public function logout(Request $request)
     {
+        $_SESSION['userId'] = null;
+        $_SESSION['role'] = null;
         session_unset();
         session_destroy();
         $request->session = [];

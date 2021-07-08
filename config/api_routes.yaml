@@ -15,7 +15,7 @@ CategoryGetAll:
 
 CommentAddOnPost:
     path: /posts/:slug/comment
-    methods: ['POST']
+    methods: ['GET', 'POST']
     controller: App\Controller\Api\Comment\CommentController
     action: addCommentOnPost
     requirements:
@@ -70,14 +70,21 @@ UserGetProfile:
 
 UserUpdateProfile:
     path: /me/update
-    methods: ['PUT']
+    methods: ['GET', 'POST']
     controller: App\Controller\Api\User\UserController
     action: updateProfile
     auth: verified
 
+UserUpdatePassword!:
+    path: /me/password/update
+    methods: ['GET', 'POST']
+    controller: App\Controller\Api\User\UserController
+    action: updatePassword
+    auth: verified
+
 UserDeleteProfile:
     path: /me/delete
-    methods: ['DELETE']
+    methods: ['GET']
     controller: App\Controller\Api\User\UserController
     action: deleteProfile
     auth: verified

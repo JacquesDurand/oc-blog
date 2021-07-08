@@ -24,6 +24,7 @@ class AdminPostController extends AbstractController
     /** @var UserManager  */
     private UserManager $userManager;
 
+    /** @var CategoryManager */
     private CategoryManager $categoryManager;
 
     public function __construct()

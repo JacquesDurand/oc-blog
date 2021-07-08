@@ -1,0 +1,30 @@
+<h1>Posts</h1>
+
+{% for post in posts %}
+    <ul>
+        <li>
+            {{ post.id }}
+        </li>
+        <li>
+            {{ post.title }}
+        </li>
+        <li>
+            {{ post.lede }}
+        </li>
+        <li>
+            {{ post.content }}
+        </li>
+        <li>
+            {{ post.category.name }}
+        </li>
+        <li>
+            {{ post.author.username }}
+        </li>
+        <li>
+            {{ post.state }}
+        </li>
+        <li>
+            {{ post.slug }}
+        </li>
+    </ul>
+{% endfor %}
