@@ -1,0 +1,41 @@
+<h1>Post {{ post.id }}</h1>
+
+<ul>
+    <li>
+        {{ post.title }}
+    </li>
+    <li>
+        {{ post.lede }}
+    </li>
+    <li>
+        {{ post.content }}
+    </li>
+    <li>
+        {{ post.category.name }}
+    </li>
+    <li>
+        {{ post.author.username }}
+    </li>
+    <li>
+        {{ post.state }}
+    </li>
+    <li>
+        {{ post.slug }}
+    </li>
+</ul>
+
+<h2>Les commentaires de ce post</h2>
+
+{% for comment in comments %}
+    <ul>
+        <li>
+            {{ comment.content }}
+        </li>
+        <li>
+            {{ comment.author.username }}
+        </li>
+        <li>
+            {{ comment.createdAt|date }}
+        </li>
+    </ul>
+{% endfor %}

@@ -1,0 +1,23 @@
+<h1>Mon profil {{ user.id }}</h1>
+
+<ul>
+    <li>
+        {{ user.username }}
+    </li>
+    <li>
+        {{ user.email }}
+    </li>
+</ul>
+
+<h2>Mes derniers commentaires :</h2>
+
+{% for comment in comments %}
+    <ul>
+        <li>
+            {{ comment.content }}
+        </li>
+        <li>
+            {{ comment.createdAt|date }}
+        </li>
+    </ul>
+{% endfor %}

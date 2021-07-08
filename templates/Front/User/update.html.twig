@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update</title>
+</head>
+<body>
+
+<form action="/me/update" method="POST">
+    <input type="hidden" name="token" value="{{ token }}"/>
+    <label for="username">Pseudo</label>
+    <input type="text" name="username" id="username" value="{{ user.username }}">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" value="{{ user.email }}">
+    <input type="submit">
+</form>
+
+</body>
+</html>
