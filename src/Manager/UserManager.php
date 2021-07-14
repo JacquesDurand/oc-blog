@@ -7,6 +7,7 @@ namespace App\Manager;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 use App\Exception\ResourceNotFoundException;
+use App\Model\User;
 use App\Security\SecurityService;
 use App\Traits\DbInstanceTrait;
 use PDO;
@@ -29,8 +30,7 @@ class UserManager
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users');
         $req->execute();
-        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\User');
-        return $req->fetchAll();
+        return $this->hydrateUsers($req->fetchAll());
     }
 
     public function getUserById(int $id)
@@ -38,17 +38,20 @@ class UserManager
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE id=:id');
         $req->bindValue(':id', $id);
         $req->execute();
-        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\User');
-        return $req->fetch();
+        return $this->hydrateUser($req->fetch());
     }
 
-    public function getUserByUsername(string $username)
+    public function getUserByUsername(string $username): ?User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE username=:username');
         $req->bindValue(':username', $username);
         $req->execute();
-        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\User');
-        return $req->fetch();
+        if ($req->fetch()) {
+            $req->execute();
+            return $this->hydrateUser($req->fetch());
+        } else {
+            return null;
+        }
     }
 
     public function getUserByEmail(string $email)
@@ -56,8 +59,7 @@ class UserManager
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE email=:email');
         $req->bindValue(':email', $email);
         $req->execute();
-        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\User');
-        return $req->fetch();
+        return $this->hydrateUser($req->fetch());
     }
 
     /**
@@ -158,5 +160,29 @@ class UserManager
         } else {
             throw new ResourceNotFoundException();
         }
+    }
+
+    private function hydrateUsers(array $dbUsers): array
+    {
+        $users = [];
+        foreach ($dbUsers as $dbUser) {
+            $users[] = $this->hydrateUser($dbUser);
+        }
+        return $users;
+    }
+
+    private function hydrateUser(array $data): User
+    {
+        $user = new User();
+        $user->setId((int)$data['id']);
+        $user->setUserName($data['username']);
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+        $user->setRole((int)$data['role']);
+        $user->setCreatedAt(new \DateTime($data['created_at']));
+        $user->setUpdatedAt(new \DateTime($data['updated_at']));
+        $user->setLastActivity(new \DateTime($data['last_activity']));
+
+        return $user;
     }
 }

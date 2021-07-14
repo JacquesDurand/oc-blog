@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User;
 
+use App\Authentication\Role;
 use App\Controller\Twig\AbstractController;
 use App\Errors\RegisterFormError;
 use App\Errors\UpdateUserFormError;
@@ -49,7 +50,9 @@ class UserController extends AbstractController
             $comments = $this->commentManager->getCommentsForAuthor($connectedUser);
             echo $this->render('Front/User/me.html.twig', [
                 'user' => $connectedUser,
-                'comments' => $comments
+                'comments' => $comments,
+                'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
+                'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
             ]);
         } else {
             echo $this->render('Errors/403.html.twig');
@@ -67,7 +70,9 @@ class UserController extends AbstractController
                     echo $this->render('/Front/User/update.html.twig', [
                         'user' => $user,
                         'token' => $_SESSION['csrf_token'],
-                        'errors' => new UpdateUserFormError()
+                        'errors' => new UpdateUserFormError(),
+                        'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
+                        'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                     ]);
                 } else {
                     echo $this->render('Errors/403.html.twig');
@@ -84,7 +89,9 @@ class UserController extends AbstractController
                         echo $this->render('/Front/User/update.html.twig', [
                             'user' => $user,
                             'token' => $_SESSION['csrf_token'],
-                            'errors' => $this->updateUserFormValidator->getUpdateUserFormErrors($request)
+                            'errors' => $this->updateUserFormValidator->getUpdateUserFormErrors($request),
+                            'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
+                            'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                         ]);
                     }
                 else {
@@ -113,7 +120,9 @@ class UserController extends AbstractController
                     $this->generateCsrfToken($request);
                     echo $this->render('/Front/User/update_password.html.twig', [
                         'token' => $_SESSION['csrf_token'],
-                        'errors' => new UpdateUserFormError()
+                        'errors' => new UpdateUserFormError(),
+                        'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
+                        'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                     ]);
                 } else {
                     echo $this->render('Errors/403.html.twig');
@@ -129,7 +138,9 @@ class UserController extends AbstractController
                         $this->generateCsrfToken($request);
                         echo $this->render('/Front/User/update_password.html.twig', [
                             'token' => $_SESSION['csrf_token'],
-                            'errors' => $this->passwordFormValidator->getPasswordFormErrors($request)
+                            'errors' => $this->passwordFormValidator->getPasswordFormErrors($request),
+                            'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
+                            'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                         ]);
                     }
                     else {

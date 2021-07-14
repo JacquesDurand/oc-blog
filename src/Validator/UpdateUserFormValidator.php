@@ -36,7 +36,7 @@ class UpdateUserFormValidator
         return (
             (isset($request->request['username']) && !empty($request->request['username'])) &&
             (isset($request->request['email']) && !empty($request->request['email'])) &&
-            !$this->userManager->getUserByUsername($request->request['username']) &&
+            (null === $this->userManager->getUserByUsername($request->request['username'])) &&
             !$newEmailInUse
         );
     }

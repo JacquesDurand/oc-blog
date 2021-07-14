@@ -1,23 +1,202 @@
-<h1>Mon profil {{ user.id }}</h1>
+{% extends 'Home/index.html.twig' %}
 
-<ul>
-    <li>
-        {{ user.username }}
-    </li>
-    <li>
-        {{ user.email }}
-    </li>
-</ul>
+{% block body %}
 
-<h2>Mes derniers commentaires :</h2>
+    <div class="bg-white rounded shadow">
+        <div class="p-6 md:p-7 lg:p-9">
+            <h1 class="font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 text-red-700 text-center">
+                Mon Profil
+            </h1>
+        </div>
+    </div>
+    <br>
+    <!--Profile starts-->
+    <div class="bg-white rounded shadow">
+        <div class="p-6 md:p-7 lg:p-9">
+            <div class="flex justify-between">
+                <h4 class="font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2">
+                    Pseudo: {{ user.username }}
+                </h4>
+                <div class="text-base md:text-lg ">
+                    <button onclick="toggleModal()" class="mt-4 font-bold text-red-700 hover:text-red-500 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Supprimer mon compte
+                    </button>
+                </div>
+            </div>
+            <div class="mt-3 mb-3 text-sm text-gray-700 flex items-center">
+                <p class="text-gray-900 bold">
+                    Profil créé le:
+                </p>
+                <span class="ml-3">
+     <svg class="inline mr-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-clock">
+     <circle cx="12" cy="12" r="10"></circle>
+     <polyline points="12 6 12 12 16 14"></polyline>
+     </svg>
+     {{ user.createdAt|date }}
+     </span>
+            </div>
+            <div class="mt-3 mb-3 text-md text-gray-700 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+                </svg>
+                <p class="text-gray-900 bold p-2">
+                    Email:
+                </p>
+                <span class="text-red-600">
+                    {{ user.email }}
+                </span>
+            </div>
+            <div class="group flex w-full justify-between items-center m-1 p-2">
+                    <a href="/me/update" class="mt-4 font-bold text-green-700 hover:text-green-500 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        </svg>
+                        Mettre à jour mon profil
+                    </a>
+                    <a href="/me/password/update"
+                       class="mt-4 font-bold text-yellow-500 hover:text-yellow-300 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Mettre à jour mon mot de passe
+                    </a>
+            </div>
+        </div>
+    </div>
+    <!--Profile ends-->
+    <br>
+    <!--Comments starts-->
+    <div class="bg-white rounded shadow">
+        <div class="p-6 md:p-7 lg:p-9">
+            <h5 class="font-extrabold text-lg sm:text-xl md:text-2xl lg:text-3xl mt-2">
+                Mes derniers commentaires:
+            </h5>
+        </div>
+    </div>
+    {% for comment in comments %}
+        <div class="bg-white rounded shadow">
+            <div class="p-6 md:p-7 lg:p-9">
+                <div class="mt-3 mb-3 text-sm text-gray-700 flex items-center">
+                    <a href="/posts/{{ comment.post.slug }}">
+                        <p class="font-bold text-gray-600 hover:text-gray-800">{{ comment.post.title }}</p>
+                    </a>
+                    <span class="ml-3">
+     <svg class="inline mr-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-clock">
+     <circle cx="12" cy="12" r="10"></circle>
+     <polyline points="12 6 12 12 16 14"></polyline>
+     </svg>
+     {{ comment.createdAt|date }}
+     </span>
+                </div>
+                {% if comment.state == 2 %}
+                    <div class="text-base md:text-lg text-gray-500">
+                        <p class="leading-7 lg:leading-8">
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                {% elseif comment.state == 1 %}
+                    <p class="font-bold text-yellow-700 italic">
+                        Commentaire en attente de modération
+                    </p>
+                    <div class="text-base md:text-lg text-yellow-500">
+                        <p class="leading-7 lg:leading-8">
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                {% else %}
+                    <p class="font-bold text-red-700 italic">
+                        Commentaire modéré pour la raison suivante:
+                    </p>
+                    <p class="text-gray-700 italic">
+                        {{ comment.moderationReason }}
+                    </p>
+                    <div class="text-base md:text-lg text-red-500">
+                        <p class="leading-7 lg:leading-8">
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
 
-{% for comment in comments %}
-    <ul>
-        <li>
-            {{ comment.content }}
-        </li>
-        <li>
-            {{ comment.createdAt|date }}
-        </li>
-    </ul>
-{% endfor %}
+    {% endfor %}
+
+    <!-- Modal starts-->
+    <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+            <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50"
+                 onclick="toggleModal()">
+                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                     viewBox="0 0 18 18">
+                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                </svg>
+            </div>
+
+            <!-- Add margin if you want to see some of the overlay behind the modal-->
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold text-red-700">Confirmation</p>
+                    <div class="modal-close cursor-pointer z-50" onclick="toggleModal()">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                             viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Heroicon name: outline/exclamation -->
+                            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Désactiver mon compte </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Etes-vous certain de vouloir désactiver votre compte ? Cette action est irreversible
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="flex justify-end pt-2">
+                        <a href="/me/delete">
+                            <button class="px-4 bg-transparent p-3 rounded-lg text-red-500 hover:bg-red-100 hover:text-red-400 mr-2">
+                                Confirmer la désactivation
+                            </button>
+                        </a>
+                        <button class="modal-close px-4 bg-green-500 p-3 rounded-lg text-white hover:bg-green-400"
+                                onclick="toggleModal()">Retour
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

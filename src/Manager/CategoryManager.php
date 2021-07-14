@@ -36,6 +36,15 @@ class CategoryManager
         return $req->fetch();
     }
 
+    public function getCategoryByName(string $categoryName)
+    {
+        $req = $this->dbInstance->prepare('SELECT * FROM category WHERE name=:name');
+        $req->bindValue(':name', $categoryName);
+        $req->execute();
+        $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Category');
+        return $req->fetch();
+    }
+
     public function createCategory(string $name): void
     {
         $req = $this->dbInstance->prepare('INSERT INTO category(name) VALUES (:name)');

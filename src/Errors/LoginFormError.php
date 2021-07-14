@@ -21,6 +21,9 @@ class LoginFormError
     /** @var bool  */
     private bool $accountRemoved = false;
 
+    /** @var bool */
+    private bool $accountMissing = false;
+
     /**
      * @return bool
      */
@@ -99,5 +102,21 @@ class LoginFormError
     public function setAccountRemoved(bool $accountRemoved): void
     {
         $this->accountRemoved = $accountRemoved;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccountMissing(): bool
+    {
+        return $this->accountMissing;
+    }
+
+    /**
+     * @param bool $accountMissing
+     */
+    public function setAccountMissing(bool $accountMissing): void
+    {
+        $this->accountMissing = $accountMissing;
     }
 }
