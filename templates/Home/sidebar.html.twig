@@ -1,0 +1,56 @@
+<div class="col-span-12 md:col-span-4 lg:col-span-3">
+    <aside id="sidebar" class="hidden md:block bg-gray-900 h-full px-10">
+        <a href="#" id="close-menu" class="inline-block md:hidden" onclick="closeSidebar()">
+            <svg class="absolute top-5 right-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" class="feather feather-x">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </a>
+        <div class="sticky h-screen top-0 py-20 flex flex-wrap content-center">
+            <div class="w-full">
+                <a href="/" class="text-gray-300 text-xl hover:text-white">Blog de Hugo</a>
+            </div>
+            <div>
+                <ul class="w-full mt-20">
+                    <li class="mb-5"><a href="/" class="text-gray-300 hover:text-white">Accueil</a></li>
+                    <li class="mb-5"><a href="/posts" class="text-gray-300 hover:text-white">Posts</a></li>
+                    <li class="mb-5"><a href="/categories" class="text-gray-300 hover:text-white">Catégories</a></li>
+                    {% if isConnected %}
+                        <li class="mb-5"><a href="/me" class="text-gray-300 hover:text-white">Mon Profil</a></li>
+                        <li class="mb-5"><a href="/logout" class="text-gray-300 hover:text-white">Déconnexion</a></li>
+                        {% if isAdmin %}
+                            <li class="mb-5"><a href="/admin" class="text-gray-300 hover:text-white">Dashboard Admin</a>
+                            </li>
+                        {% endif %}
+                        {% else %}
+                            <li class="mb-5"><a href="/login" class="text-gray-300 hover:text-white">Connexion/Inscription</a></li>
+                    {% endif %}
+                    <li class="mb-5"><a href="#" class="text-gray-300 hover:text-white">About</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div class="w-full mt-20">
+                <ul>
+                    <li class="inline-block mr-2">
+                        <a href="#"><img class="w-5" src="assets/images/instagram.svg"></a>
+                    </li>
+                    <li class="inline-block mr-2">
+                        <a href="#"><img class="w-5" src="assets/images/twitter.svg"></a>
+                    </li>
+                    <li class="inline-block mr-2">
+                        <a href="#"><img class="w-5" src="assets/images/youtube.svg"></a>
+                    </li>
+                    <li class="inline-block mr-2">
+                        <a href="#"><img class="w-5" src="assets/images/linkedin.svg"></a>
+                    </li>
+                    <li class="inline-block">
+                        <a href="#"><img class="w-5" src="assets/images/facebook.svg"></a>
+                    </li>
+                </ul>
+                <p class="text-gray-300 mt-5">&copy 2021 <a href="#">Laung</a>. All Rights Reserved</p>
+            </div>
+        </div>
+    </aside>
+</div>

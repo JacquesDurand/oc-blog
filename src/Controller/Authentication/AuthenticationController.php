@@ -85,11 +85,19 @@ class AuthenticationController extends AbstractController
                     echo $this->render('Errors/Csrf.html.twig');
                 }
                 if (!$this->loginFormValidator->isLoginFormValid($request)) {
-                    $this->generateCsrfToken($request);
-                    echo $this->render('Authentication/login_form.html.twig', [
-                        'token' => $_SESSION['csrf_token'],
-                        'errors' => $this->loginFormValidator->getLoginFormErrors($request)
-                    ]);
+                    $errors = $this->loginFormValidator->getLoginFormErrors($request);
+                    if ($errors->isAwaitingVerification()) {
+                        echo $this->render('Authentication/awaiting_verification.html.twig');
+                    }
+                    elseif (!$errors->isAccountMissing() && !$errors->isAccountRemoved()) {
+                        $this->generateCsrfToken($request);
+                        echo $this->render('Authentication/login_form.html.twig', [
+                            'token' => $_SESSION['csrf_token'],
+                            'errors' => $this->loginFormValidator->getLoginFormErrors($request)
+                        ]);
+                    } else {
+                        header('Location: http://localhost/register');
+                    }
                 } else {
                     /** @var User $user */
                     $user = $this->userManager->getUserByUsername($request->request['username']);

@@ -6,6 +6,7 @@ namespace App\Controller\Api\Comment;
 
 require_once __DIR__.'/../../../../vendor/autoload.php';
 
+use App\Authentication\Role;
 use App\Controller\Twig\AbstractController;
 use App\HTTP\Request;
 use App\Manager\CommentManager;
@@ -43,7 +44,9 @@ class CommentController extends AbstractController
                     $this->generateCsrfToken($request);
                     echo $this->render('Front/Comment/form.html.twig', [
                         'post' => $post,
-                        'token' => $_SESSION['csrf_token']
+                        'token' => $_SESSION['csrf_token'],
+                        'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
+
                     ]);
                 } else {
                     echo $this->render('Errors/404_resource.html.twig');

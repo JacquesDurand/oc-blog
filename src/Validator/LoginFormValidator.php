@@ -33,11 +33,13 @@ class LoginFormValidator
     {
         /** @var User $user */
         $user = $this->userManager->getUserByUsername($request->request['username']);
+        if (!$user) {
+            return false;
+        }
 
         return (
         (isset($request->request['username']) && !empty($request->request['username'])) &&
         (isset($request->request['password']) && !empty($request->request['password'])) &&
-        $user &&
         $this->securityService->verifyPassword($request->request['password'], $user->getPassword()) &&
         ($user->getRole() > Role::ROLE_AWAITING_VERIFICATION)
         );
@@ -55,7 +57,11 @@ class LoginFormValidator
         if (!isset($request->request['password']) || empty($request->request['password'])) {
             $error->setMissingPassword(true);
         }
-        if (!$user || !$this->securityService->verifyPassword($request->request['password'], $user->getPassword())) {
+        if (!$user) {
+            $error->setAccountMissing(true);
+            return $error;
+        }
+        if (!$this->securityService->verifyPassword($request->request['password'], $user->getPassword())) {
             $error->setCredentialsIncorrect(true);
         }
         if ($user->getRole() === Role::ROLE_AWAITING_VERIFICATION) {

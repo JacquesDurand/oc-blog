@@ -169,6 +169,8 @@ class PostManager
         $post->setState($dbPost['state']);
         $post->setCategory($this->categoryManager->getCategoryById($dbPost['category_id']));
         $post->setAuthor($this->userManager->getUserById($dbPost['author_id']));
+        $post->setCreatedAt(new \DateTime($dbPost['created_at']));
+        $post->setCreatedAt(new \DateTime($dbPost['updated_at']));
 
         return $post;
     }
