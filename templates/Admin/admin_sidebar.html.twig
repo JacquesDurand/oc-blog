@@ -1,0 +1,26 @@
+<div class="col-span-12 md:col-span-4 lg:col-span-3">
+    <aside id="sidebar" class="hidden md:block bg-red-900 h-full px-10">
+        <a href="#" id="close-menu" class="inline-block md:hidden" onclick="closeSidebar()">
+            <svg class="absolute top-5 right-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" class="feather feather-x">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </a>
+        <div class="sticky h-screen top-0 py-20 flex flex-wrap content-center">
+            <div class="w-full">
+                <a href="/admin" class="text-gray-300 text-xl hover:text-white">Dashboard Admin</a>
+            </div>
+            <div>
+                <ul class="w-full mt-20">
+                    <li class="mb-5"><a href="/" class="text-gray-300 hover:text-white">Accueil</a></li>
+                    <li class="mb-5"><a href="/admin/posts" class="text-gray-300 hover:text-white">Posts</a></li>
+                    <li class="mb-5"><a href="/admin/categories" class="text-gray-300 hover:text-white">Catégories</a></li>
+                    <li class="mb-5"><a href="/admin/users" class="text-gray-300 hover:text-white">Utilisateurs</a></li>
+                    <li class="mb-5"><a href="/admin/comments" class="text-gray-300 hover:text-white">Commentaires</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+</div>

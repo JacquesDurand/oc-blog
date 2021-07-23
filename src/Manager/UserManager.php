@@ -6,6 +6,7 @@ namespace App\Manager;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
+use App\Authentication\Role;
 use App\Exception\ResourceNotFoundException;
 use App\Model\User;
 use App\Security\SecurityService;
@@ -29,6 +30,14 @@ class UserManager
     public function getAllUsers(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users');
+        $req->execute();
+        return $this->hydrateUsers($req->fetchAll());
+    }
+
+    public function getAllAdminUsers(): array
+    {
+        $req = $this->dbInstance->prepare('SELECT * FROM users WHERE role=:role');
+        $req->bindValue(':role', Role::ROLE_ADMIN);
         $req->execute();
         return $this->hydrateUsers($req->fetchAll());
     }
@@ -155,6 +164,24 @@ class UserManager
                      WHERE id=:id'
             );
             $req->bindValue(':password', $hashedPassword);
+            $req->bindValue(':id', $id);
+            $req->execute();
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @throws ResourceNotFoundException
+     */
+    public function verifyUser(int $id): void
+    {
+        if ($this->getUserById($id)) {
+            $req = $this->dbInstance->prepare(
+                'UPDATE users SET role =:role WHERE id=:id'
+            );
+            $req->bindValue(':role', Role::ROLE_USER_VERIFIED);
             $req->bindValue(':id', $id);
             $req->execute();
         } else {

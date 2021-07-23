@@ -102,4 +102,15 @@ class AdminUserController extends AbstractController
                 }
         }
     }
+
+    public function verifyUser(Request $request)
+    {
+        $id = (int) $request->requirements[0];
+        try {
+            $this->userManager->verifyUser($id);
+            header('Location: http://localhost/admin/users');
+        } catch (ResourceNotFoundException $exception) {
+            echo $this->render('Errors/404_resource.html.twig');
+        }
+    }
 }

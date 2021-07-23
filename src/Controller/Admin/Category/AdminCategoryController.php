@@ -55,7 +55,7 @@ class AdminCategoryController extends AbstractController
         $id = (int)$request->requirements[0];
         try {
             $this->categoryManager->deleteCategory($id);
-            echo $this->render('/Admin/Category/show.html.twig', [ 'categories' => $this->categoryManager->getAllCategories()]);
+            header("Location: http://localhost/admin/categories");
         } catch (ResourceNotFoundException $exception) {
             echo $this->render('Errors/404_resource.html.twig');
         }

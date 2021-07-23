@@ -1,8 +1,8 @@
 {% extends 'Home/index.html.twig' %}
 
 {% block body %}
-<!-- Blog Post Start-->
-<div class="bg-white rounded shadow">
+    <!-- Blog Post Start-->
+    <div class="bg-white rounded shadow">
     <div class="p-6 md:p-7 lg:p-9">
         <a href="/posts/category/{{ post.category.name }}"
            class="font-bold text-red-500">{{ post.category.name|upper }}</a>
@@ -63,4 +63,4 @@
         </div>
     </div>
 
-    {% endblock %}
+{% endblock %}

@@ -83,8 +83,7 @@ class UserController extends AbstractController
                 if ($user = $this->userManager->getUserById($connectedUserId)) {
                     if (!$this->verifyCsrfToken($request)) {
                         echo $this->render('Errors/Csrf.html.twig');
-                    }
-                     elseif (!$this->updateUserFormValidator->isUpdateUserFormValid($request)) {
+                    } elseif (!$this->updateUserFormValidator->isUpdateUserFormValid($request)) {
                         $this->generateCsrfToken($request);
                         echo $this->render('/Front/User/update.html.twig', [
                             'user' => $user,
@@ -93,14 +92,13 @@ class UserController extends AbstractController
                             'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
                             'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                         ]);
-                    }
-                else {
+                    } else {
                         try {
                             $this->cleanInput($request);
                             $request->request['role'] = $user->getRole();
-                        $this->userManager->updateUserWithoutPassword($connectedUserId, $request->request);
-                        header('Location: http://localhost/me');
-                    } catch (ResourceNotFoundException $exception) {
+                            $this->userManager->updateUserWithoutPassword($connectedUserId, $request->request);
+                            header('Location: http://localhost/me');
+                        } catch (ResourceNotFoundException $exception) {
                             echo $this->render('Errors/404_resource.html.twig');
                         }
                     }
@@ -133,8 +131,7 @@ class UserController extends AbstractController
                 if ($user = $this->userManager->getUserById($connectedUserId)) {
                     if (!$this->verifyCsrfToken($request)) {
                         echo $this->render('Errors/Csrf.html.twig');
-                    }
-                    elseif (!$this->passwordFormValidator->isPasswordFormValid($request)) {
+                    } elseif (!$this->passwordFormValidator->isPasswordFormValid($request)) {
                         $this->generateCsrfToken($request);
                         echo $this->render('/Front/User/update_password.html.twig', [
                             'token' => $_SESSION['csrf_token'],
@@ -142,8 +139,7 @@ class UserController extends AbstractController
                             'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
                             'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
                         ]);
-                    }
-                    else {
+                    } else {
                         try {
                             $this->cleanInput($request);
                             $this->userManager->updatePassword($connectedUserId, $request->request['newPassword']);
@@ -156,7 +152,6 @@ class UserController extends AbstractController
                     echo $this->render('Errors/403.html.twig');
                 }
         }
-
     }
 
     public function deleteProfile(Request $request)
@@ -168,6 +163,5 @@ class UserController extends AbstractController
         } catch (ResourceNotFoundException $exception) {
             echo $this->render('Errors/404_resource.html.twig');
         }
-
     }
 }

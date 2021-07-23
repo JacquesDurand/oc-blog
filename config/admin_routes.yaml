@@ -161,6 +161,14 @@ AdminUserUpdate:
     requirements:
         -   id: '|\d+$|'
 
+AdminUserVerify:
+    path: /users/:id/verify
+    methods: ['GET']
+    controller: App\Controller\Admin\User\AdminUserController
+    action: verifyUser
+    requirements:
+        -   id: '|\d+$|'
+
 ##############
 #  Dashboard #
 ##############
