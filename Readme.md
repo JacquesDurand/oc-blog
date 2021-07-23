@@ -29,10 +29,10 @@ The front end has been realised through the use of [**Tailwind CSS**](https://ta
 
 ## Table of contents
  - [Installation](#Installation)
-    - [Prerequisites](#Prerequisites)
+     - [Prerequisites](#Prerequisites)
         - [Git](#Git)
         - [Docker](#Docker)
-        - [Docker-compose](#Docker Compose)
+        - [Docker-compose](#Docker-Compose)
     - [Clone](#clone)
     
  - [Configuration](#configuration)
