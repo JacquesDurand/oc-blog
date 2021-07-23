@@ -39,6 +39,10 @@ class Post
     /** @var DateTime */
     private $updatedAt;
 
+    public const STATE_REMOVED = 0;
+    public const STATE_DRAFT = 1;
+    public const STATE_PUBLISHED = 2;
+
     /**
      * @return int
      */

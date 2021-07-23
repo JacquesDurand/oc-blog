@@ -38,7 +38,8 @@ class AdminCommentController extends AbstractController
     {
         $comments = $this->commentManager->getAllComments();
         echo $this->render('Admin/Comment/show.html.twig', [
-            'comments' => $comments
+            'comments' => $comments,
+            'posts' => $this->postManager->getAllPosts()
         ]);
     }
 
@@ -63,7 +64,8 @@ class AdminCommentController extends AbstractController
                     $this->generateCsrfToken($request);
                     echo $this->render('Admin/Comment/form.html.twig', [
                        'post' => $post,
-                       'token' => $_SESSION['csrf_token']
+                       'token' => $_SESSION['csrf_token'],
+
                     ]);
                 } else {
                     echo $this->render('Errors/404_resource.html.twig');
@@ -89,13 +91,15 @@ class AdminCommentController extends AbstractController
     public function updateComment(Request $request)
     {
         $id = (int) $request->requirements[0];
+        $comment = $this->commentManager->getCommentById($id);
         switch ($request->method) {
             case 'GET':
-                if ($comment = $this->commentManager->getCommentById($id)) {
+                if ($comment) {
                     $this->generateCsrfToken($request);
                     echo $this->render('Admin/Comment/update.html.twig', [
                        'comment' => $comment,
-                       'token' => $_SESSION['csrf_token']
+                       'token' => $_SESSION['csrf_token'],
+                        'post' => $comment->getPost()
                     ]);
                 } else {
                     echo $this->render('Errors/404_resource.html.twig');
@@ -106,8 +110,7 @@ class AdminCommentController extends AbstractController
                     echo $this->render('Errors/Csrf.html.twig');
                 } else {
                     $this->cleanInput($request);
-                    $comment = $this->hydrateCommentFromRequest($request);
-                    $comment->setId($id);
+                    $comment->setContent($request->request['content']);
                     try {
                         $this->commentManager->updateComment($comment);
                         header('Location: http://localhost/admin/comments');
@@ -164,9 +167,9 @@ class AdminCommentController extends AbstractController
         $comment = new Comment();
 
         $comment->setContent($request->request['content']);
-        $comment->setModerationReason($request->request['moderationReason']);
+        $comment->setModerationReason($request->request['moderationReason'] ?: '');
         $comment->setState(Comment::STATE_VALIDATED);
-        $comment->setAuthor($this->userManager->getUserById((int) $request->request['author']));
+        $comment->setAuthor($this->userManager->getUserById((int) $request->session['userId']));
         $comment->setPost($this->postManager->getPostById((int) $request->requirements[0]));
 
         return $comment;

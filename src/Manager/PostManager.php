@@ -7,6 +7,7 @@ namespace App\Manager;
 require_once __DIR__.'/../../vendor/autoload.php';
 
 use App\Exception\ResourceNotFoundException;
+use App\Model\Category;
 use App\Model\Post;
 use App\Traits\DbInstanceTrait;
 use PDO;
@@ -164,10 +165,16 @@ class PostManager
         $post->setId($dbPost['id']);
         $post->setTitle($dbPost['title']);
         $post->setLede($dbPost['lede']);
-        $post->setContent($dbPost['content']);
+        $post->setContent(stripslashes($dbPost['content']));
         $post->setSlug($dbPost['slug']);
         $post->setState($dbPost['state']);
-        $post->setCategory($this->categoryManager->getCategoryById($dbPost['category_id']));
+        if (null === $dbPost['category_id']) {
+            $category = new Category();
+            $category->setName('Catégorie supprimée');
+            $post->setCategory($category);
+        } else {
+            $post->setCategory($this->categoryManager->getCategoryById($dbPost['category_id']));
+        }
         $post->setAuthor($this->userManager->getUserById($dbPost['author_id']));
         $post->setCreatedAt(new \DateTime($dbPost['created_at']));
         $post->setCreatedAt(new \DateTime($dbPost['updated_at']));

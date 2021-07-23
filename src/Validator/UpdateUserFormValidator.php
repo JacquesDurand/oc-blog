@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-
 namespace App\Validator;
+
 use App\Errors\RegisterFormError;
 use App\Errors\UpdateUserFormError;
 use App\HTTP\Request;

@@ -88,8 +88,7 @@ class AuthenticationController extends AbstractController
                     $errors = $this->loginFormValidator->getLoginFormErrors($request);
                     if ($errors->isAwaitingVerification()) {
                         echo $this->render('Authentication/awaiting_verification.html.twig');
-                    }
-                    elseif (!$errors->isAccountMissing() && !$errors->isAccountRemoved()) {
+                    } elseif (!$errors->isAccountMissing() && !$errors->isAccountRemoved()) {
                         $this->generateCsrfToken($request);
                         echo $this->render('Authentication/login_form.html.twig', [
                             'token' => $_SESSION['csrf_token'],

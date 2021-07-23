@@ -57,7 +57,9 @@ class AdminPostController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 echo $this->render('Admin/Post/form.html.twig', [
-                    'token' => $_SESSION['csrf_token']
+                    'token' => $_SESSION['csrf_token'],
+                    'categories' => $this->categoryManager->getAllCategories(),
+                    'authors' => $this->userManager->getAllAdminUsers()
                 ]);
                 break;
             case 'POST':
@@ -97,7 +99,9 @@ class AdminPostController extends AbstractController
                     $this->generateCsrfToken($request);
                     echo $this->render('Admin/Post/update.html.twig', [
                         'post' => $post,
-                        'token' => $_SESSION['csrf_token']
+                        'token' => $_SESSION['csrf_token'],
+                        'categories' => $this->categoryManager->getAllCategories(),
+                        'authors' => $this->userManager->getAllAdminUsers()
                     ]);
                 } else {
                     echo $this->render('Errors/404_resource.html.twig');

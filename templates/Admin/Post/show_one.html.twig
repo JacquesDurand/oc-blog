@@ -1,25 +1,65 @@
-<h1>Post {{ post.id }}</h1>
+{% extends 'Admin/base.html.twig' %}
 
-    <ul>
-        <li>
-            {{ post.title }}
-        </li>
-        <li>
-            {{ post.lede }}
-        </li>
-        <li>
-            {{ post.content }}
-        </li>
-        <li>
-            {{ post.category.name }}
-        </li>
-        <li>
-            {{ post.author.username }}
-        </li>
-        <li>
-            {{ post.state }}
-        </li>
-        <li>
-            {{ post.slug }}
-        </li>
-    </ul>
+{% block body %}
+    <!-- Blog Post Start-->
+    <div class="bg-white rounded shadow">
+        <div class="p-6 md:p-7 lg:p-9">
+            <p class="font-bold text-red-500">{{ post.category.name|upper }}</p>
+            <h3 class="font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2">
+                {{ post.title }}
+            </h3>
+            <div class="mt-3 mb-3 text-sm text-gray-700 flex items-center">
+                <p class="font-bold text-gray-600">{{ post.author.username }}</p>
+                <span class="ml-3">
+     <svg class="inline mr-1 -mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-clock">
+     <circle cx="12" cy="12" r="10"></circle>
+     <polyline points="12 6 12 12 16 14"></polyline>
+     </svg>
+     {{ post.createdAt|date }}
+     </span>
+            </div>
+            <div class="text-base md:text-lg text-gray-500">
+                <p class="leading-7 lg:leading-8">
+                    {{ post.content }}
+                </p>
+            </div>
+            <div class="text-base md:text-lg flex justify-between items-center">
+                <a href="/admin/posts/{{ post.id }}/update"
+                   class="mt-4 inline-block font-bold text-green-500 hover:text-green-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                    </svg>
+                    Mettre à jour
+                </a>
+                <button data-categoryId="{{ category.id }}" data-categoryName="{{ category.name }}"
+                        class="modal-open mt-4 inline-block font-bold text-red-500 hover:text-red-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                    </svg>
+                    Supprimer
+                </button>
+        </div>
+    </div>
+        <div class="p-6 md:p-7 lg:p-9">
+            <a href="/admin/posts/{{ post.id }}/comment"
+               class="mt-4 inline-block w-full font-bold">
+                <button class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-xl text-extrabold">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                              </span>
+                    Ajouter un commentaire sur cet article !
+                </button>
+            </a>
+        </div>
+
+{% endblock %}
