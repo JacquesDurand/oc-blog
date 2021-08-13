@@ -25,7 +25,7 @@ class AdminCategoryController extends AbstractController
 
     public function show(Request $request)
     {
-        echo $this->render('/Admin/Category/show.html.twig', [ 'categories' => $this->categoryManager->getAllCategories()]);
+        print_r( $this->render('/Admin/Category/show.html.twig', [ 'categories' => $this->categoryManager->getAllCategories()]));
     }
 
     public function create(Request $request): void
@@ -33,13 +33,14 @@ class AdminCategoryController extends AbstractController
         switch ($request->method) {
             case 'GET':
                 $this->generateCsrfToken($request);
-                echo $this->render('/Admin/Category/form.html.twig', [
-                    'token' => $_SESSION['csrf_token']
-                ]);
+                $csrfToken = $_SESSION['csrf_token'];
+                print_r( $this->render('/Admin/Category/form.html.twig', [
+                    'token' => $csrfToken
+                ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $name = $request->request['name'];
@@ -52,43 +53,44 @@ class AdminCategoryController extends AbstractController
 
     public function delete(Request $request)
     {
-        $id = (int)$request->requirements[0];
+        $categoryId = (int)$request->requirements[0];
         try {
-            $this->categoryManager->deleteCategory($id);
+            $this->categoryManager->deleteCategory($categoryId);
             header("Location: http://localhost/admin/categories");
         } catch (ResourceNotFoundException $exception) {
-            echo $this->render('Errors/404_resource.html.twig');
+            print_r( $this->render('Errors/404_resource.html.twig'));
         }
     }
 
     public function update(Request $request)
     {
-        $id = (int)$request->requirements[0];
+        $categoryId = (int)$request->requirements[0];
 
         switch ($request->method) {
             case 'GET':
-                if ($category = $this->categoryManager->getCategoryById($id)) {
+                if ($category = $this->categoryManager->getCategoryById($categoryId)) {
                     $this->generateCsrfToken($request);
-                    echo $this->render('/Admin/Category/update.html.twig', [
+                    $csrfToken = $_SESSION['csrf_token'];
+                    print_r( $this->render('/Admin/Category/update.html.twig', [
                         'category' => $category,
-                        'token' => $_SESSION['csrf_token']
-                    ]);
+                        'token' => $csrfToken
+                    ]));
                 } else {
-                    echo $this->render('Errors/404_resource.html.twig');
+                    print_r( $this->render('Errors/404_resource.html.twig'));
                 }
                 break;
 
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $name = $request->request['name'];
                     try {
-                        $this->categoryManager->updateCategory($id, $name);
-                        echo $this->render('/Admin/Category/show.html.twig', ['categories' => $this->categoryManager->getAllCategories()]);
+                        $this->categoryManager->updateCategory($categoryId, $name);
+                        print_r( $this->render('/Admin/Category/show.html.twig', ['categories' => $this->categoryManager->getAllCategories()]));
                     } catch (ResourceNotFoundException $exception) {
-                        echo $this->render('Errors/404_resource.html.twig');
+                        print_r( $this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }

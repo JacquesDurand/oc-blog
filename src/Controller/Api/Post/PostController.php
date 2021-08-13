@@ -36,11 +36,11 @@ class PostController extends AbstractController
     public function getAllPosts(Request $request)
     {
         $posts = $this->postManager->getAllPosts();
-        echo $this->render('Front/Post/show.html.twig', [
+        print_r( $this->render('Front/Post/show.html.twig', [
             'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
             'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role'],
             'posts' => $posts
-        ]);
+        ]));
     }
 
     public function getAllPostsByCategory(Request $request)
@@ -48,14 +48,14 @@ class PostController extends AbstractController
         $category = $request->requirements[1];
         if (null !== $category) {
             $posts = $this->postManager->getPostsByCategoryName($category);
-            echo $this->render('Front/Post/show.html.twig', [
+            print_r( $this->render('Front/Post/show.html.twig', [
                 'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
                 'posts' => $posts,
                 'category' => $this->categoryManager->getCategoryByName($category),
                 'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
-            ]);
+            ]));
         } else {
-            echo $this->render('Errors/404_resource.html.twig');
+            print_r( $this->render('Errors/404_resource.html.twig'));
         }
     }
 
@@ -64,13 +64,13 @@ class PostController extends AbstractController
         $authorId = (int) $request->requirements[1];
         if (null !== $authorId) {
             $posts = $this->postManager->getPostsByAuthor($authorId);
-            echo $this->render('Front/Post/show.html.twig', [
+            print_r( $this->render('Front/Post/show.html.twig', [
                 'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
                 'posts' => $posts,
                 'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
-            ]);
+            ]));
         } else {
-            echo $this->render('Errors/404_resource.html.twig');
+            print_r( $this->render('Errors/404_resource.html.twig'));
         }
     }
 
@@ -81,15 +81,15 @@ class PostController extends AbstractController
             $post = $this->postManager->getPostBySlug($slug);
             if (null !== $post) {
                 $comments = $this->commentManager->getCommentsForPost($post);
-                echo $this->render('Front/Post/show_one.html.twig', [
+                print_r( $this->render('Front/Post/show_one.html.twig', [
                     'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
                     'post' => $post,
                     'comments' => $comments,
                     'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
-                ]);
+                ]));
             }
         } else {
-            echo $this->render('Errors/404_resource.html.twig');
+            print_r( $this->render('Errors/404_resource.html.twig'));
         }
     }
 }

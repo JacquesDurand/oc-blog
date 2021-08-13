@@ -39,10 +39,10 @@ class CommentManager
         return $this->hydrateCommentsWithFk($req->fetchAll());
     }
 
-    public function getCommentById(int $id)
+    public function getCommentById(int $commentId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE id=:id');
-        $req->bindValue(':id', $id);
+        $req->bindValue(':id', $commentId);
         $req->execute();
         if ($result = $req->fetch()) {
             return $this->hydrateCommentWithFk($result);
@@ -52,13 +52,13 @@ class CommentManager
     }
 
     /**
-     * @param int $id
+     * @param int $commentId
      * @param string $moderationReason
      * @throws ResourceNotFoundException
      */
-    public function moderateComment(int $id, string $moderationReason)
+    public function moderateComment(int $commentId, string $moderationReason)
     {
-        if ($this->getCommentById($id)) {
+        if ($this->getCommentById($commentId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE comment 
                    SET moderation_reason = :moderationReason, state = :state
@@ -66,7 +66,7 @@ class CommentManager
             );
             $req->bindValue(':moderationReason', $moderationReason);
             $req->bindValue(':state', Comment::STATE_MODERATED);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $commentId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -114,15 +114,15 @@ class CommentManager
     }
 
     /**
-     * @param int $id
+     * @param int $commentId
      * @throws ResourceNotFoundException
      */
-    public function approveComment(int $id)
+    public function approveComment(int $commentId)
     {
-        if ($this->getCommentById($id)) {
+        if ($this->getCommentById($commentId)) {
             $req = $this->dbInstance->prepare('UPDATE comment SET state = :state WHERE id = :id');
             $req->bindValue(':state', Comment::STATE_VALIDATED);
-            $req->bindValue('id', $id);
+            $req->bindValue('id', $commentId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();

@@ -51,13 +51,18 @@ class Request
      */
     public static function createFromGlobals(): Request
     {
+        $server = $_SERVER;
+        $post = $_POST;
+        $get = $_GET;
+        $cookie = $_COOKIE;
+        $session = $_SESSION;
         return new self(
-            $_SERVER['REQUEST_METHOD'],
-            strtok($_SERVER['REQUEST_URI'], '?'),
-            $_POST,
-            $_GET,
-            $_COOKIE,
-            $_SESSION,
+            $server['REQUEST_METHOD'],
+            strtok($server['REQUEST_URI'], '?'),
+            $post,
+            $get,
+            $cookie,
+            $session,
             []
         );
     }

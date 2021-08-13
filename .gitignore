@@ -76,3 +76,6 @@ fabric.properties
 .env
 ## CS Fixer
 .php-cs-fixer.cache
+
+## Sonar
+.scannerwork

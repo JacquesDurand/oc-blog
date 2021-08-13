@@ -37,10 +37,10 @@ class PostManager
         return $this->hydratePostsWithFK($req->fetchAll());
     }
 
-    public function getPostById(int $id)
+    public function getPostById(int $postId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM post WHERE id=:id');
-        $req->bindValue(':id', $id);
+        $req->bindValue(':id', $postId);
         $req->execute();
         if ($result = $req->fetch()) {
             return $this->hydratePostWithFk($result);
@@ -102,14 +102,14 @@ class PostManager
     }
 
     /**
-     * @param int $id
+     * @param int $postId
      * @throws ResourceNotFoundException
      */
-    public function deletePost(int $id)
+    public function deletePost(int $postId)
     {
-        if ($this->getPostById($id)) {
+        if ($this->getPostById($postId)) {
             $req = $this->dbInstance->prepare('DELETE FROM post WHERE id=:id');
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $postId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -117,13 +117,13 @@ class PostManager
     }
 
     /**
-     * @param int $id
+     * @param int $postId
      * @param Post $post
      * @throws ResourceNotFoundException
      */
-    public function updatePost(int $id, Post $post)
+    public function updatePost(int $postId, Post $post)
     {
-        if ($this->getPostById($id)) {
+        if ($this->getPostById($postId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE post 
                        SET title=:title, 
@@ -142,7 +142,7 @@ class PostManager
             $req->bindValue(':state', $post->getState());
             $req->bindValue(':categoryId', $post->getCategory()->getId());
             $req->bindValue(':authorId', $post->getAuthor()->getId());
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $postId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
