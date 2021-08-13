@@ -44,7 +44,6 @@ class PasswordFormValidator
     public function getPasswordFormErrors(Request $request): PasswordFormError
     {
         $error = new PasswordFormError();
-        /** @var User $connectedUser */
         $connectedUser = $this->userManager->getUserById($request->session['userId']);
 
         if (!isset($request->request['oldPassword']) || empty($request->request['oldPassword'])) {

@@ -38,17 +38,17 @@ class AdminPostController extends AbstractController
     public function getAllPosts(Request $request)
     {
         $posts = $this->postManager->getAllPosts();
-        echo $this->render('Admin/Post/show.html.twig', [
+        print_r( $this->render('Admin/Post/show.html.twig', [
                 'posts' => $posts
-            ]);
+            ]));
     }
 
     public function getPostById(Request $request)
     {
-        $id = (int) $request->requirements[0];
-        echo $this->render('Admin/Post/show_one.html.twig', [
-            'post' => $this->postManager->getPostById($id)
-        ]);
+        $postId = (int) $request->requirements[0];
+        print_r( $this->render('Admin/Post/show_one.html.twig', [
+            'post' => $this->postManager->getPostById($postId)
+        ]));
     }
 
     public function addPost(Request $request)
@@ -56,15 +56,16 @@ class AdminPostController extends AbstractController
         switch ($request->method) {
             case 'GET':
                 $this->generateCsrfToken($request);
-                echo $this->render('Admin/Post/form.html.twig', [
-                    'token' => $_SESSION['csrf_token'],
+                $csrfToken = $_SESSION['csrf_token'];
+                print_r( $this->render('Admin/Post/form.html.twig', [
+                    'token' => $csrfToken,
                     'categories' => $this->categoryManager->getAllCategories(),
                     'authors' => $this->userManager->getAllAdminUsers()
-                ]);
+                ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $post = $this->hydratePost($request);
@@ -80,44 +81,45 @@ class AdminPostController extends AbstractController
 
     public function removePost(Request $request)
     {
-        $id = (int) $request->requirements[0];
+        $postId = (int) $request->requirements[0];
         try {
-            $this->postManager->deletePost($id);
-            echo $this->render('Admin/Post/show.html.twig');
+            $this->postManager->deletePost($postId);
+            print_r( $this->render('Admin/Post/show.html.twig'));
         } catch (ResourceNotFoundException $exception) {
-            echo $this->render('Errors/404_resource.html.twig');
+            print_r( $this->render('Errors/404_resource.html.twig'));
         }
     }
 
     public function updatePost(Request $request)
     {
-        $id = (int) $request->requirements[0];
+        $postId = (int) $request->requirements[0];
 
         switch ($request->method) {
             case 'GET':
-                if ($post = $this->postManager->getPostById($id)) {
+                if ($post = $this->postManager->getPostById($postId)) {
                     $this->generateCsrfToken($request);
-                    echo $this->render('Admin/Post/update.html.twig', [
+                    $csrfToken = $_SESSION['csrf_token'];
+                    print_r( $this->render('Admin/Post/update.html.twig', [
                         'post' => $post,
-                        'token' => $_SESSION['csrf_token'],
+                        'token' => $csrfToken ,
                         'categories' => $this->categoryManager->getAllCategories(),
                         'authors' => $this->userManager->getAllAdminUsers()
-                    ]);
+                    ]));
                 } else {
-                    echo $this->render('Errors/404_resource.html.twig');
+                    print_r( $this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $post = $this->hydratePost($request);
                     try {
-                        $this->postManager->updatePost($id, $post);
+                        $this->postManager->updatePost($postId, $post);
                         header('Location: http://localhost/admin/posts');
                     } catch (ResourceNotFoundException $exception) {
-                        echo $this->render('Errors/404_resource.html.twig');
+                        print_r( $this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }

@@ -42,19 +42,20 @@ class CommentController extends AbstractController
             case 'GET':
                 if ($post = $this->postManager->getPostBySlug($slug)) {
                     $this->generateCsrfToken($request);
-                    echo $this->render('Front/Comment/form.html.twig', [
+                    $csrfToken = $_SESSION['csrf_token'];
+                    print_r( $this->render('Front/Comment/form.html.twig', [
                         'post' => $post,
-                        'token' => $_SESSION['csrf_token'],
+                        'token' => $csrfToken,
                         'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
 
-                    ]);
+                    ]));
                 } else {
-                    echo $this->render('Errors/404_resource.html.twig');
+                    print_r( $this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $comment = $this->hydrateCommentFromRequest($request);

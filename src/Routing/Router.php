@@ -24,10 +24,10 @@ class Router
     public function handleRequest(Request $request)
     {
         if (null === $route = $this->getRoute($request)) {
-            echo 'Dommage';
+            print_r('Route inexistante');
         } else {
             if (!\in_array($request->method, $route->getMethods())) {
-                echo 'Mauvaise methode';
+                print_r( 'Mauvaise methode');
             }
             $this->checkAuth($route);
             $controller = $route->getController();

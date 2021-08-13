@@ -27,10 +27,10 @@ class CategoryManager
         return $req->fetchAll();
     }
 
-    public function getCategoryById(int $id)
+    public function getCategoryById(int $categoryId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM category WHERE id=:id');
-        $req->bindValue(':id', $id);
+        $req->bindValue(':id', $categoryId);
         $req->execute();
         $req->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Category');
         return $req->fetch();
@@ -55,12 +55,12 @@ class CategoryManager
     /**
      * @throws ResourceNotFoundException
      */
-    public function deleteCategory(int $id): void
+    public function deleteCategory(int $categoryId): void
     {
-        $category = $this->getCategoryById($id);
+        $category = $this->getCategoryById($categoryId);
         if ($category) {
             $req = $this->dbInstance->prepare('DELETE FROM category WHERE id=:id');
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $categoryId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -70,12 +70,12 @@ class CategoryManager
     /**
      * @throws ResourceNotFoundException
      */
-    public function updateCategory(int $id, string $name): void
+    public function updateCategory(int $categoryId, string $name): void
     {
-        if ($category = $this->getCategoryById($id)) {
+        if ($category = $this->getCategoryById($categoryId)) {
             $req = $this->dbInstance->prepare('UPDATE category SET name=:name WHERE id=:id');
             $req->bindValue(':name', $name);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $categoryId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();

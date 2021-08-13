@@ -31,11 +31,17 @@ class DbService
 
     public function __construct()
     {
-        $this->setHost($_ENV['DB_HOST']);
-        $this->setPort((int) $_ENV['DB_PORT']);
-        $this->setDbName($_ENV['DB_NAME']);
-        $this->setUserName($_ENV['DB_USERNAME']);
-        $this->setPassword($_ENV['DB_PASSWORD']);
+        $host = $_ENV['DB_HOST'];
+        $port = (int) $_ENV['DB_PORT'];
+        $name = $_ENV['DB_NAME'];
+        $username = $_ENV['DB_USERNAME'];
+        $password = $_ENV['DB_PASSWORD'];
+
+        $this->setHost($host);
+        $this->setPort($port);
+        $this->setDbName($name);
+        $this->setUserName($username);
+        $this->setPassword($password);
     }
 
     public function connect(): PDO

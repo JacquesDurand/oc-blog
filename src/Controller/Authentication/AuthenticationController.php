@@ -42,28 +42,30 @@ class AuthenticationController extends AbstractController
         switch ($request->method) {
             case 'GET':
                 $this->generateCsrfToken($request);
-                echo $this->render('Authentication/register_form.html.twig', [
-                    'token' => $_SESSION['csrf_token'],
+                $csrfToken = $_SESSION['csrf_token'];
+                print_r( $this->render('Authentication/register_form.html.twig', [
+                    'token' => $csrfToken,
                     'errors' => new RegisterFormError()
-                ]);
+                ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 }
                 if (!$this->registerFormValidator->isRegisterFormValid($request)) {
                     $this->generateCsrfToken($request);
-                    echo $this->render('Authentication/register_form.html.twig', [
-                        'token' => $_SESSION['csrf_token'],
+                    $csrfToken = $_SESSION['csrf_token'];
+                    print_r( $this->render('Authentication/register_form.html.twig', [
+                        'token' => $csrfToken,
                         'errors' => $this->registerFormValidator->getRegisterFormErrors($request)
-                    ]);
+                    ]));
                 } else {
                     try {
                         $request->request['role'] = Role::ROLE_AWAITING_VERIFICATION;
                         $this->userManager->createUser($request->request);
                         header('Location: http://localhost/admin/users');
                     } catch (PDOException $exception) {
-                        echo $exception->getMessage();
+                        print_r( $exception->getMessage());
                     }
                 }
 
@@ -75,25 +77,27 @@ class AuthenticationController extends AbstractController
         switch ($request->method) {
             case 'GET':
                 $this->generateCsrfToken($request);
-                echo $this->render('Authentication/login_form.html.twig', [
-                    'token' => $_SESSION['csrf_token'],
+                $csrfToken = $_SESSION['csrf_token'];
+                print_r( $this->render('Authentication/login_form.html.twig', [
+                    'token' => $csrfToken,
                     'errors' => new LoginFormError()
-                ]);
+                ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    echo $this->render('Errors/Csrf.html.twig');
+                    print_r( $this->render('Errors/Csrf.html.twig'));
                 }
                 if (!$this->loginFormValidator->isLoginFormValid($request)) {
                     $errors = $this->loginFormValidator->getLoginFormErrors($request);
                     if ($errors->isAwaitingVerification()) {
-                        echo $this->render('Authentication/awaiting_verification.html.twig');
+                        print_r( $this->render('Authentication/awaiting_verification.html.twig'));
                     } elseif (!$errors->isAccountMissing() && !$errors->isAccountRemoved()) {
                         $this->generateCsrfToken($request);
-                        echo $this->render('Authentication/login_form.html.twig', [
-                            'token' => $_SESSION['csrf_token'],
+                        $csrfToken = $_SESSION['csrf_token'];
+                        print_r( $this->render('Authentication/login_form.html.twig', [
+                            'token' => $csrfToken,
                             'errors' => $this->loginFormValidator->getLoginFormErrors($request)
-                        ]);
+                        ]));
                     } else {
                         header('Location: http://localhost/register');
                     }

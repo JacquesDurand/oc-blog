@@ -42,10 +42,10 @@ class UserManager
         return $this->hydrateUsers($req->fetchAll());
     }
 
-    public function getUserById(int $id)
+    public function getUserById(int $userId): User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE id=:id');
-        $req->bindValue(':id', $id);
+        $req->bindValue(':id', $userId);
         $req->execute();
         return $this->hydrateUser($req->fetch());
     }
@@ -63,7 +63,7 @@ class UserManager
         }
     }
 
-    public function getUserByEmail(string $email)
+    public function getUserByEmail(string $email): User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE email=:email');
         $req->bindValue(':email', $email);
@@ -93,11 +93,11 @@ class UserManager
     /**
      * @throws ResourceNotFoundException
      */
-    public function deleteUser(int $id): void
+    public function deleteUser(int $userId): void
     {
-        if ($this->getUserById($id)) {
+        if ($this->getUserById($userId)) {
             $req = $this->dbInstance->prepare('DELETE FROM users WHERE id=:id');
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $userId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -107,11 +107,11 @@ class UserManager
     /**
      * @throws ResourceNotFoundException
      */
-    public function updateUser(int $id, array $data): void
+    public function updateUser(int $userId, array $data): void
     {
         $hashedPassword = $this->securityService->hashPassword($data['password']);
 
-        if ($this->getUserById($id)) {
+        if ($this->getUserById($userId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE users SET username=:username, email=:email, password=:password, role=:role
                      WHERE id=:id'
@@ -120,7 +120,7 @@ class UserManager
             $req->bindValue(':password', $hashedPassword);
             $req->bindValue(':email', $data['email']);
             $req->bindValue(':role', $data['role']);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $userId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -128,13 +128,13 @@ class UserManager
     }
 
     /**
-     * @param int $id
+     * @param int $userId
      * @param array $data
      * @throws ResourceNotFoundException
      */
-    public function updateUserWithoutPassword(int $id, array $data): void
+    public function updateUserWithoutPassword(int $userId, array $data): void
     {
-        if ($this->getUserById($id)) {
+        if ($this->getUserById($userId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE users SET username=:username, email=:email, role=:role
                      WHERE id=:id'
@@ -142,7 +142,7 @@ class UserManager
             $req->bindValue(':username', $data['username']);
             $req->bindValue(':email', $data['email']);
             $req->bindValue(':role', $data['role']);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $userId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -150,21 +150,21 @@ class UserManager
     }
 
     /**
-     * @param int $id
+     * @param int $userId
      * @param string $password
      * @throws ResourceNotFoundException
      */
-    public function updatePassword(int $id, string $password): void
+    public function updatePassword(int $userId, string $password): void
     {
         $hashedPassword = $this->securityService->hashPassword($password);
 
-        if ($this->getUserById($id)) {
+        if ($this->getUserById($userId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE users SET password = :password
                      WHERE id=:id'
             );
             $req->bindValue(':password', $hashedPassword);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $userId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
@@ -172,17 +172,17 @@ class UserManager
     }
 
     /**
-     * @param int $id
+     * @param int $userId
      * @throws ResourceNotFoundException
      */
-    public function verifyUser(int $id): void
+    public function verifyUser(int $userId): void
     {
-        if ($this->getUserById($id)) {
+        if ($this->getUserById($userId)) {
             $req = $this->dbInstance->prepare(
                 'UPDATE users SET role =:role WHERE id=:id'
             );
             $req->bindValue(':role', Role::ROLE_USER_VERIFIED);
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $userId);
             $req->execute();
         } else {
             throw new ResourceNotFoundException();
