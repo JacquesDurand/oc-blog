@@ -1,3 +1,5 @@
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=JacquesDurand_oc-blog&metric=security_rating)](https://sonarcloud.io/dashboard?id=JacquesDurand_oc-blog) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=JacquesDurand_oc-blog&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=JacquesDurand_oc-blog) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=JacquesDurand_oc-blog&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=JacquesDurand_oc-blog) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JacquesDurand_oc-blog&metric=bugs)](https://sonarcloud.io/dashboard?id=JacquesDurand_oc-blog)  
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=JacquesDurand_oc-blog)
 # Parcours OpenClassrooms: Développeur d'application PHP/Symfony
 
 ## Projet 5: Créer un blog en PHP
