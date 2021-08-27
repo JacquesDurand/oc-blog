@@ -30,6 +30,11 @@ class PostManager
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Gets all Posts
+     * @return array
+     * @throws \Exception
+     */
     public function getAllPosts(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM post');
@@ -37,6 +42,12 @@ class PostManager
         return $this->hydratePostsWithFK($req->fetchAll());
     }
 
+    /**
+     * Gets a single Post (by Id)
+     * @param int $postId
+     * @return Post|false
+     * @throws \Exception
+     */
     public function getPostById(int $postId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM post WHERE id=:id');
@@ -49,6 +60,12 @@ class PostManager
         }
     }
 
+    /**
+     * Gets a single Post (by slug)
+     * @param string $slug
+     * @return Post|false
+     * @throws \Exception
+     */
     public function getPostBySlug(string $slug)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM post WHERE slug=:slug');
@@ -61,7 +78,13 @@ class PostManager
         }
     }
 
-    public function getPostsByCategoryName(string $categoryName)
+    /**
+     * Gets every Posts for a Category
+     * @param string $categoryName
+     * @return array
+     * @throws \Exception
+     */
+    public function getPostsByCategoryName(string $categoryName): array
     {
         $req = $this->dbInstance->prepare(
             'SELECT * FROM post p INNER JOIN category c ON p.category_id = c.id WHERE c.name = :name'
@@ -71,7 +94,13 @@ class PostManager
         return $this->hydratePostsWithFk($req->fetchAll());
     }
 
-    public function getPostsByAuthor(int $authorId)
+    /**
+     * Gets every Posts created by a User
+     * @param int $authorId
+     * @return array
+     * @throws \Exception
+     */
+    public function getPostsByAuthor(int $authorId): array
     {
         $req = $this->dbInstance->prepare(
             'SELECT * FROM post WHERE author_id = :id '
@@ -82,6 +111,7 @@ class PostManager
     }
 
     /**
+     * Creates a new Post
      * @param Post $post
      * @throws PDOException
      */
@@ -102,6 +132,7 @@ class PostManager
     }
 
     /**
+     * Deletes a Post (by Id)
      * @param int $postId
      * @throws ResourceNotFoundException
      */
@@ -117,6 +148,7 @@ class PostManager
     }
 
     /**
+     * Updates a Post (by Id)
      * @param int $postId
      * @param Post $post
      * @throws ResourceNotFoundException
@@ -149,6 +181,12 @@ class PostManager
         }
     }
 
+    /**
+     * Creates Posts from db resources
+     * @param array $dbPosts
+     * @return array
+     * @throws \Exception
+     */
     private function hydratePostsWithFK(array $dbPosts): array
     {
         $posts = [];
@@ -159,6 +197,12 @@ class PostManager
         return $posts;
     }
 
+    /**
+     * Creates a Post from db resources
+     * @param array $dbPost
+     * @return Post
+     * @throws \Exception
+     */
     private function hydratePostWithFk(array $dbPost): Post
     {
         $post = new Post();

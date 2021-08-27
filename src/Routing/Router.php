@@ -13,21 +13,25 @@ require_once __DIR__.'/../../vendor/autoload.php';
 class Router
 {
     /** @var Route[] */
-    private $routes;
+    private array $routes;
 
     public function __construct()
     {
         $this->loadRoutes();
     }
 
-    ##TODO rework this function for errors
+    /**
+     * Sends to the correct Controller and Action depending on the Request
+     * @param Request $request
+     * @return mixed
+     */
     public function handleRequest(Request $request)
     {
         if (null === $route = $this->getRoute($request)) {
-            print_r('Route inexistante');
+            header('Location: http://localhost/');
         } else {
             if (!\in_array($request->method, $route->getMethods())) {
-                print_r('Mauvaise methode');
+                header('Location: http://localhost/');
             }
             $this->checkAuth($route);
             $controller = $route->getController();
@@ -46,6 +50,7 @@ class Router
     }
 
     /**
+     * Returns the correct Route if it exists
      * @param Request $request
      * @return Route|null
      */
@@ -85,6 +90,9 @@ class Router
         $this->routes[] = $route;
     }
 
+    /**
+     * Loads the different routes from the Yaml config files
+     */
     private function loadRoutes(): void
     {
         $apiRoutes = \yaml_parse_file(__DIR__ . '/../../config/api_routes.yaml');
@@ -93,6 +101,11 @@ class Router
         $this->createRoutes($apiRoutes);
     }
 
+    /**
+     * Creates Routes from the Yaml config files
+     * @param array $routes
+     * @param bool $isAdmin
+     */
     private function createRoutes(array $routes, bool $isAdmin = false): void
     {
         foreach ($routes as $routeToLoad) {
@@ -130,6 +143,10 @@ class Router
         }
     }
 
+    /**
+     * Checks if the User has enough credentials for the requested Route
+     * @param Route $route
+     */
     private function checkAuth(Route $route)
     {
         if (Role::ROLE_REMOVED === $route->getAuthLevel()) {

@@ -43,6 +43,10 @@ class UserController extends AbstractController
         $this->passwordFormValidator = new PasswordFormValidator();
     }
 
+    /**
+     * Renders the connected User's profile (if connected)
+     * @param Request $request
+     */
     public function getProfile(Request $request)
     {
         $connectedUserId = (int) $request->session['userId'];
@@ -59,6 +63,10 @@ class UserController extends AbstractController
         }
     }
 
+    /**
+     * Updates the connected User's profile
+     * @param Request $request
+     */
     public function updateProfile(Request $request)
     {
         $connectedUserId = (int) $request->session['userId'];
@@ -107,9 +115,16 @@ class UserController extends AbstractController
                 } else {
                     print_r($this->render('Errors/403.html.twig'));
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Updates the connected User's password
+     * @param Request $request
+     */
     public function updatePassword(Request $request)
     {
         $connectedUserId = (int) $request->session['userId'];
@@ -155,9 +170,16 @@ class UserController extends AbstractController
                 } else {
                     print_r($this->render('Errors/403.html.twig'));
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Delete the connected User's profile
+     * @param Request $request
+     */
     public function deleteProfile(Request $request)
     {
         $connectedUserId = (int) $request->session['userId'];

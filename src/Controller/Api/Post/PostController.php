@@ -33,6 +33,10 @@ class PostController extends AbstractController
         $this->categoryManager = new CategoryManager();
     }
 
+    /**
+     * Renders all Posts
+     * @param Request $request
+     */
     public function getAllPosts(Request $request)
     {
         $posts = $this->postManager->getAllPosts();
@@ -43,6 +47,10 @@ class PostController extends AbstractController
         ]));
     }
 
+    /**
+     * Renders all Posts (by Category name)
+     * @param Request $request
+     */
     public function getAllPostsByCategory(Request $request)
     {
         $category = $request->requirements[1];
@@ -59,6 +67,10 @@ class PostController extends AbstractController
         }
     }
 
+    /**
+     * Renders all Posts (by Author -User- Id)
+     * @param Request $request
+     */
     public function getAllPostsByAuthor(Request $request)
     {
         $authorId = (int) $request->requirements[1];
@@ -74,6 +86,10 @@ class PostController extends AbstractController
         }
     }
 
+    /**
+     * Renders a single Post (by Post slug)
+     * @param Request $request
+     */
     public function getSinglePost(Request $request)
     {
         $slug = $request->requirements[0];

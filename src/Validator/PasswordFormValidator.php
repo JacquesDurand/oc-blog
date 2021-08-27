@@ -27,9 +27,12 @@ class PasswordFormValidator
         $this->securityService = new SecurityService();
     }
 
+    /**
+     * Checks if the form is valid
+     * @throws \Exception
+     */
     public function isPasswordFormValid(Request $request): bool
     {
-        /** @var User $connectedUser */
         $connectedUser = $this->userManager->getUserById($request->session['userId']);
         return (
             (isset($request->request['oldPassword']) && !empty($request->request['oldPassword'])) &&
@@ -41,6 +44,12 @@ class PasswordFormValidator
         );
     }
 
+    /**
+     * Returns the form errors if the form is not valid
+     * @param Request $request
+     * @return PasswordFormError
+     * @throws \Exception
+     */
     public function getPasswordFormErrors(Request $request): PasswordFormError
     {
         $error = new PasswordFormError();

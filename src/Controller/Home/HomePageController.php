@@ -13,6 +13,10 @@ use App\HTTP\Request;
 
 class HomePageController extends AbstractController
 {
+    /**
+     * Renders the Blog's index
+     * @param Request $request
+     */
     public function index(Request $request)
     {
         print_r($this->render('Home/index.html.twig', [

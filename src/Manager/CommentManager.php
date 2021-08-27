@@ -32,6 +32,10 @@ class CommentManager
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Returns all Comments
+     * @return array
+     */
     public function getAllComments(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment');
@@ -39,6 +43,11 @@ class CommentManager
         return $this->hydrateCommentsWithFk($req->fetchAll());
     }
 
+    /**
+     * Return a single Comment (by Id)
+     * @param int $commentId
+     * @return Comment|false
+     */
     public function getCommentById(int $commentId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE id=:id');
@@ -52,6 +61,7 @@ class CommentManager
     }
 
     /**
+     * Sets a Comment's state to moderated and adds a reason
      * @param int $commentId
      * @param string $moderationReason
      * @throws ResourceNotFoundException
@@ -74,6 +84,7 @@ class CommentManager
     }
 
     /**
+     * Creates a Comment for a Post (by PostId)
      * @param Comment $comment
      * @throws PDOException
      */
@@ -92,6 +103,10 @@ class CommentManager
         $req->execute();
     }
 
+    /**
+     * Updates a Comment (by Id)
+     * @param Comment $comment
+     */
     public function updateComment(Comment $comment)
     {
         $req = $this->dbInstance->prepare(
@@ -114,6 +129,7 @@ class CommentManager
     }
 
     /**
+     * Sets a Comment's state to validated
      * @param int $commentId
      * @throws ResourceNotFoundException
      */
@@ -129,6 +145,12 @@ class CommentManager
         }
     }
 
+    /**
+     * Gets all Comments for a Post
+     * @param Post $post
+     * @return array
+     * @throws \Exception
+     */
     public function getCommentsForPost(Post $post): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE post_id =:id AND state = :state');
@@ -138,6 +160,12 @@ class CommentManager
         return $this->hydrateCommentsWithFk($req->fetchAll());
     }
 
+    /**
+     * Gets all Comments by a User
+     * @param User $user
+     * @return array
+     * @throws \Exception
+     */
     public function getCommentsForAuthor(User $user): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM comment WHERE author_id =:id');
@@ -146,6 +174,12 @@ class CommentManager
         return $this->hydrateCommentsWithFk($req->fetchAll());
     }
 
+    /**
+     * Creates Comments from db resources
+     * @param array $dbComments
+     * @return array
+     * @throws \Exception
+     */
     private function hydrateCommentsWithFk(array $dbComments): array
     {
         $comments = [];
@@ -156,6 +190,12 @@ class CommentManager
         return $comments;
     }
 
+    /**
+     * Creates a single Comment from db resources
+     * @param array $dbComment
+     * @return Comment
+     * @throws \Exception
+     */
     private function hydrateCommentWithFk(array $dbComment): Comment
     {
         $comment = new Comment();

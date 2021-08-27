@@ -19,6 +19,10 @@ class CategoryManager
         $this->connect();
     }
 
+    /**
+     * Returns all categories
+     * @return array
+     */
     public function getAllCategories(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM category');
@@ -27,6 +31,11 @@ class CategoryManager
         return $req->fetchAll();
     }
 
+    /**
+     * Returns a single Category (by Id)
+     * @param int $categoryId
+     * @return mixed
+     */
     public function getCategoryById(int $categoryId)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM category WHERE id=:id');
@@ -36,6 +45,11 @@ class CategoryManager
         return $req->fetch();
     }
 
+    /**
+     * Returns a single Category (by name)
+     * @param string $categoryName
+     * @return mixed
+     */
     public function getCategoryByName(string $categoryName)
     {
         $req = $this->dbInstance->prepare('SELECT * FROM category WHERE name=:name');
@@ -45,6 +59,10 @@ class CategoryManager
         return $req->fetch();
     }
 
+    /**
+     * Creates a new Category
+     * @param string $name
+     */
     public function createCategory(string $name): void
     {
         $req = $this->dbInstance->prepare('INSERT INTO category(name) VALUES (:name)');
@@ -53,6 +71,7 @@ class CategoryManager
     }
 
     /**
+     * Deletes a Category (by Id)
      * @throws ResourceNotFoundException
      */
     public function deleteCategory(int $categoryId): void
@@ -68,6 +87,7 @@ class CategoryManager
     }
 
     /**
+     * Updates a Category (by Id)
      * @throws ResourceNotFoundException
      */
     public function updateCategory(int $categoryId, string $name): void

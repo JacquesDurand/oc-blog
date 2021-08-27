@@ -10,34 +10,34 @@ use DateTime;
 class Post
 {
     /** @var int */
-    private $id;
+    private int $id;
 
     /** @var string */
-    private $title;
+    private string $title;
 
     /** @var string */
-    private $lede;
+    private string $lede;
 
     /** @var string */
-    private $content;
+    private string $content;
 
     /** @var string */
-    private $slug;
+    private string $slug;
 
     /** @var int */
-    private $state;
+    private int $state;
 
     /** @var Category|null */
-    private $category;
+    private ?Category $category;
 
     /** @var User */
-    private $author;
+    private User $author;
 
     /** @var DateTime */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /** @var DateTime */
-    private $updatedAt;
+    private DateTime $updatedAt;
 
     public const STATE_REMOVED = 0;
     public const STATE_DRAFT = 1;

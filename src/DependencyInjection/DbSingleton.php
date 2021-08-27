@@ -12,10 +12,10 @@ use PDO;
 class DbSingleton
 {
     /** @var DbSingleton */
-    private static $instance;
+    private static DbSingleton $instance;
 
     /** @var DbService */
-    private $dbService;
+    private DbService $dbService;
 
     protected function __construct()
     {
@@ -23,6 +23,7 @@ class DbSingleton
     }
 
     /**
+     * Creates a new Db connection if not existing
      * @return static
      */
     public static function getInstance(): DbSingleton

@@ -18,6 +18,10 @@ $dotenv->load();
 
 class ContactController extends AbstractController
 {
+    /**
+     * Renders and process a contact form
+     * @param Request $request
+     */
     public function contact(Request $request)
     {
         switch ($request->method) {
@@ -50,14 +54,26 @@ class ContactController extends AbstractController
                     }
                 }
                 break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Send a Mail to the admin
+     * @param Mail $mail
+     * @return bool
+     */
     private function sendMail(Mail $mail): bool
     {
         return mail($mail->getRecipientMail(), $mail->getSubject(), $mail->getMessage(), implode("\r\n", $mail->getHeaders()));
     }
 
+    /**
+     * Creates a Mail from the Request parameters
+     * @param Request $request
+     * @return Mail
+     */
     private function hydrateMailFromRequest(Request $request): Mail
     {
         $mail = new Mail();

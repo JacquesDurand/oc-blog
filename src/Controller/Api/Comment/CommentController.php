@@ -34,6 +34,10 @@ class CommentController extends AbstractController
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Adds a single Comment on a Post (by Post slug)
+     * @param Request $request
+     */
     public function addCommentOnPost(Request $request)
     {
         $slug = $request->requirements[0];
@@ -67,9 +71,16 @@ class CommentController extends AbstractController
                     }
                 }
                 break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Creates a Comment from the Request parameters
+     * @param Request $request
+     * @return Comment
+     */
     private function hydrateCommentFromRequest(Request $request): Comment
     {
         $comment = new Comment();

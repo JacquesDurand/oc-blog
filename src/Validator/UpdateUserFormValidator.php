@@ -23,9 +23,12 @@ class UpdateUserFormValidator
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Checks if the form is valid
+     * @throws \Exception
+     */
     public function isUpdateUserFormValid(Request $request): bool
     {
-        /** @var User $connectedUser */
         $connectedUser = $this->userManager->getUserById($request->session['userId']);
         $newEmailInUse = true;
         if ($connectedUser->getEmail() === $request->request['email']) {
@@ -41,11 +44,16 @@ class UpdateUserFormValidator
         );
     }
 
+    /**
+     * Returns the form errors when not valid
+     * @param Request $request
+     * @return UpdateUserFormError
+     * @throws \Exception
+     */
     public function getUpdateUserFormErrors(Request $request): UpdateUserFormError
     {
         $error = new UpdateUserFormError();
 
-        /** @var User $connectedUser */
         $connectedUser = $this->userManager->getUserById($request->session['userId']);
         $newEmailInUse = true;
         if ($connectedUser->getEmail() === $request->request['email']) {

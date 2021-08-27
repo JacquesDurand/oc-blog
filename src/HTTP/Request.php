@@ -7,25 +7,25 @@ namespace App\HTTP;
 class Request
 {
     /** @var string  */
-    public $method;
+    public string $method;
 
     /** @var string */
-    public $uri;
+    public string $uri;
 
     /** @var array  */
-    public $request;
+    public array $request;
 
     /** @var array  */
-    public $query;
+    public array $query;
 
     /** @var array|null  */
-    public $cookies;
+    public ?array $cookies;
 
     /** @var array|null  */
-    public $session;
+    public ?array $session;
 
     /** @var array|null */
-    public $requirements;
+    public ?array $requirements;
 
     public function __construct(
         string $method,
@@ -67,6 +67,10 @@ class Request
         );
     }
 
+    /**
+     * Adds requirements to the request
+     * @param $requirement
+     */
     public function addRequirements($requirement): void
     {
         $this->requirements[] = $requirement;

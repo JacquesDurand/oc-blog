@@ -11,6 +11,10 @@ use App\HTTP\Request;
 
 class AdminDashBoardController extends AbstractController
 {
+    /**
+     * Renders the admin index
+     * @param Request $request
+     */
     public function index(Request $request)
     {
         print_r($this->render('Admin/base.html.twig'));

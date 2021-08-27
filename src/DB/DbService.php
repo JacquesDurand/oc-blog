@@ -15,19 +15,19 @@ $dotenv->load();
 class DbService
 {
     /** @var string */
-    private $host;
+    private string $host;
 
     /** @var int */
-    private $port;
+    private int $port;
 
     /** @var string */
-    private $dbName;
+    private string $dbName;
 
     /** @var string */
-    private $userName;
+    private string $userName;
 
     /** @var string */
-    private $password;
+    private string $password;
 
     public function __construct()
     {
@@ -44,6 +44,10 @@ class DbService
         $this->setPassword($password);
     }
 
+    /**
+     * Connects to the DB
+     * @return PDO
+     */
     public function connect(): PDO
     {
         try {
