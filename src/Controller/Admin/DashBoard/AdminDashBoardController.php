@@ -13,6 +13,6 @@ class AdminDashBoardController extends AbstractController
 {
     public function index(Request $request)
     {
-        print_r( $this->render('Admin/base.html.twig'));
+        print_r($this->render('Admin/base.html.twig'));
     }
 }

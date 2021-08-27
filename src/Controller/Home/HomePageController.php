@@ -15,7 +15,7 @@ class HomePageController extends AbstractController
 {
     public function index(Request $request)
     {
-        print_r( $this->render('Home/index.html.twig', [
+        print_r($this->render('Home/index.html.twig', [
             'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
             'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']
         ]));

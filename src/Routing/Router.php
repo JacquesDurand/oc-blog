@@ -27,7 +27,7 @@ class Router
             print_r('Route inexistante');
         } else {
             if (!\in_array($request->method, $route->getMethods())) {
-                print_r( 'Mauvaise methode');
+                print_r('Mauvaise methode');
             }
             $this->checkAuth($route);
             $controller = $route->getController();

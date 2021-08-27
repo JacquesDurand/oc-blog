@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
 
     public function show(Request $request)
     {
-        print_r( $this->render('/Front/Category/show.html.twig', [
+        print_r($this->render('/Front/Category/show.html.twig', [
             'categories' => $this->categoryManager->getAllCategories(),
             'isConnected' => isset($request->session['userId']) && !empty($request->session['userId']),
             'isAdmin' => isset($request->session['role']) && !empty($request->session['role']) && Role::ROLE_ADMIN <= $request->session['role']

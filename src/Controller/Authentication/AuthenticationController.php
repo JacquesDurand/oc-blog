@@ -43,19 +43,19 @@ class AuthenticationController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 $csrfToken = $_SESSION['csrf_token'];
-                print_r( $this->render('Authentication/register_form.html.twig', [
+                print_r($this->render('Authentication/register_form.html.twig', [
                     'token' => $csrfToken,
                     'errors' => new RegisterFormError()
                 ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 }
                 if (!$this->registerFormValidator->isRegisterFormValid($request)) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('Authentication/register_form.html.twig', [
+                    print_r($this->render('Authentication/register_form.html.twig', [
                         'token' => $csrfToken,
                         'errors' => $this->registerFormValidator->getRegisterFormErrors($request)
                     ]));
@@ -65,7 +65,7 @@ class AuthenticationController extends AbstractController
                         $this->userManager->createUser($request->request);
                         header('Location: http://localhost/admin/users');
                     } catch (PDOException $exception) {
-                        print_r( $exception->getMessage());
+                        print_r($exception->getMessage());
                     }
                 }
 
@@ -78,23 +78,23 @@ class AuthenticationController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 $csrfToken = $_SESSION['csrf_token'];
-                print_r( $this->render('Authentication/login_form.html.twig', [
+                print_r($this->render('Authentication/login_form.html.twig', [
                     'token' => $csrfToken,
                     'errors' => new LoginFormError()
                 ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 }
                 if (!$this->loginFormValidator->isLoginFormValid($request)) {
                     $errors = $this->loginFormValidator->getLoginFormErrors($request);
                     if ($errors->isAwaitingVerification()) {
-                        print_r( $this->render('Authentication/awaiting_verification.html.twig'));
+                        print_r($this->render('Authentication/awaiting_verification.html.twig'));
                     } elseif (!$errors->isAccountMissing() && !$errors->isAccountRemoved()) {
                         $this->generateCsrfToken($request);
                         $csrfToken = $_SESSION['csrf_token'];
-                        print_r( $this->render('Authentication/login_form.html.twig', [
+                        print_r($this->render('Authentication/login_form.html.twig', [
                             'token' => $csrfToken,
                             'errors' => $this->loginFormValidator->getLoginFormErrors($request)
                         ]));
