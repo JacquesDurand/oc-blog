@@ -34,6 +34,10 @@ class AdminCommentController extends AbstractController
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Renders all Comments admin-side
+     * @param Request $request
+     */
     public function getAllComments(Request $request)
     {
         $comments = $this->commentManager->getAllComments();
@@ -43,6 +47,10 @@ class AdminCommentController extends AbstractController
         ]));
     }
 
+    /**
+     * Renders a single Comment (by Id) admin-side
+     * @param Request $request
+     */
     public function getCommentById(Request $request)
     {
         $commentId = (int) $request->requirements[0];
@@ -55,6 +63,10 @@ class AdminCommentController extends AbstractController
         }
     }
 
+    /**
+     * Adds a single Comment to aPost (by PostId) admin-side
+     * @param Request $request
+     */
     public function addComment(Request $request)
     {
         $postId = (int) $request->requirements[0];
@@ -82,13 +94,20 @@ class AdminCommentController extends AbstractController
                         $this->commentManager->addCommentToPost($comment);
                         header('Location: http://localhost/admin/comments');
                     } catch (PDOException $exception) {
-                        var_dump($exception->getMessage());
+                        print_r($this->render('Errors/500.html.twig'));
                     }
                 }
                 break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
+
         }
     }
 
+    /**
+     * Updates a single Comment (by Id) admin-side
+     * @param Request $request
+     */
     public function updateComment(Request $request)
     {
         $commentId = (int) $request->requirements[0];
@@ -120,9 +139,16 @@ class AdminCommentController extends AbstractController
                         print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Moderates a single Comment (by Id) admin-side
+     * @param Request $request
+     */
     public function moderate(Request $request)
     {
         $commentId = (int) $request->requirements[0];
@@ -151,9 +177,16 @@ class AdminCommentController extends AbstractController
                         print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Approves a single Comment (by Id) admin-side
+     * @param Request $request
+     */
     public function approve(Request $request)
     {
         $commentId = (int) $request->requirements[0];
@@ -165,6 +198,11 @@ class AdminCommentController extends AbstractController
         }
     }
 
+    /**
+     * Creates a Comment from the Request parameters
+     * @param Request $request
+     * @return Comment
+     */
     private function hydrateCommentFromRequest(Request $request): Comment
     {
         $comment = new Comment();

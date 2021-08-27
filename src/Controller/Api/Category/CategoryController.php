@@ -22,6 +22,10 @@ class CategoryController extends AbstractController
         $this->categoryManager = new CategoryManager();
     }
 
+    /**
+     * Renders all categories
+     * @param Request $request
+     */
     public function show(Request $request)
     {
         print_r($this->render('/Front/Category/show.html.twig', [

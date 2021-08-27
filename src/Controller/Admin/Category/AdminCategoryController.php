@@ -15,7 +15,7 @@ use App\Manager\CategoryManager;
 class AdminCategoryController extends AbstractController
 {
     /** @var CategoryManager */
-    private $categoryManager;
+    private CategoryManager $categoryManager;
 
     public function __construct()
     {
@@ -23,11 +23,19 @@ class AdminCategoryController extends AbstractController
         $this->categoryManager = new CategoryManager();
     }
 
+    /**
+     * Renders all categories admin side
+     * @param Request $request
+     */
     public function show(Request $request)
     {
         print_r($this->render('/Admin/Category/show.html.twig', [ 'categories' => $this->categoryManager->getAllCategories()]));
     }
 
+    /**
+     * Creates a new category admin side
+     * @param Request $request
+     */
     public function create(Request $request): void
     {
         switch ($request->method) {
@@ -48,9 +56,18 @@ class AdminCategoryController extends AbstractController
 
                     header("Location: http://localhost/admin/categories");
                 }
+                break;
+
+                default:
+                    print_r($this->render('Errors/404.html.twig'));
+
         }
     }
 
+    /**
+     * Deletes a single Category (by Id) admin-side
+     * @param Request $request
+     */
     public function delete(Request $request)
     {
         $categoryId = (int)$request->requirements[0];
@@ -62,6 +79,10 @@ class AdminCategoryController extends AbstractController
         }
     }
 
+    /**
+     * Updates a single category (by Id) admin-side
+     * @param Request $request
+     */
     public function update(Request $request)
     {
         $categoryId = (int)$request->requirements[0];
@@ -93,6 +114,9 @@ class AdminCategoryController extends AbstractController
                         print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 }

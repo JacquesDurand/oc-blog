@@ -27,6 +27,11 @@ class UserManager
         $this->securityService = new SecurityService();
     }
 
+    /**
+     * Gets all Users
+     * @return array
+     * @throws \Exception
+     */
     public function getAllUsers(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users');
@@ -34,6 +39,11 @@ class UserManager
         return $this->hydrateUsers($req->fetchAll());
     }
 
+    /**
+     * Gets all admin Users
+     * @return array
+     * @throws \Exception
+     */
     public function getAllAdminUsers(): array
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE role=:role');
@@ -42,6 +52,12 @@ class UserManager
         return $this->hydrateUsers($req->fetchAll());
     }
 
+    /**
+     * Get a single User by Id
+     * @param int $userId
+     * @return User
+     * @throws \Exception
+     */
     public function getUserById(int $userId): User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE id=:id');
@@ -50,6 +66,12 @@ class UserManager
         return $this->hydrateUser($req->fetch());
     }
 
+    /**
+     * Gets a single User by username
+     * @param string $username
+     * @return User|null
+     * @throws \Exception
+     */
     public function getUserByUsername(string $username): ?User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE username=:username');
@@ -63,6 +85,12 @@ class UserManager
         }
     }
 
+    /**
+     * Gets a single User by email
+     * @param string $email
+     * @return User
+     * @throws \Exception
+     */
     public function getUserByEmail(string $email): User
     {
         $req = $this->dbInstance->prepare('SELECT * FROM users WHERE email=:email');
@@ -72,6 +100,7 @@ class UserManager
     }
 
     /**
+     * Creates a new User
      * @param array $data
      * @throws PDOException
      */
@@ -91,6 +120,7 @@ class UserManager
     }
 
     /**
+     * Deletes a User by Id
      * @throws ResourceNotFoundException
      */
     public function deleteUser(int $userId): void
@@ -105,6 +135,7 @@ class UserManager
     }
 
     /**
+     * Update a User by Id
      * @throws ResourceNotFoundException
      */
     public function updateUser(int $userId, array $data): void
@@ -128,6 +159,7 @@ class UserManager
     }
 
     /**
+     * Updates a User without changing his password
      * @param int $userId
      * @param array $data
      * @throws ResourceNotFoundException
@@ -150,6 +182,7 @@ class UserManager
     }
 
     /**
+     * Updates a User's password
      * @param int $userId
      * @param string $password
      * @throws ResourceNotFoundException
@@ -172,6 +205,7 @@ class UserManager
     }
 
     /**
+     * Accepts a User account's creation
      * @param int $userId
      * @throws ResourceNotFoundException
      */
@@ -189,6 +223,12 @@ class UserManager
         }
     }
 
+    /**
+     * Create Users from db resources
+     * @param array $dbUsers
+     * @return array
+     * @throws \Exception
+     */
     private function hydrateUsers(array $dbUsers): array
     {
         $users = [];
@@ -198,6 +238,12 @@ class UserManager
         return $users;
     }
 
+    /**
+     * Creates a User from db resources
+     * @param array $data
+     * @return User
+     * @throws \Exception
+     */
     private function hydrateUser(array $data): User
     {
         $user = new User();

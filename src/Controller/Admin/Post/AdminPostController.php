@@ -35,6 +35,10 @@ class AdminPostController extends AbstractController
         $this->categoryManager = new CategoryManager();
     }
 
+    /**
+     * Renders all Posts admin-side
+     * @param Request $request
+     */
     public function getAllPosts(Request $request)
     {
         $posts = $this->postManager->getAllPosts();
@@ -43,6 +47,10 @@ class AdminPostController extends AbstractController
             ]));
     }
 
+    /**
+     * Renders a single Post (by Id) admin-side
+     * @param Request $request
+     */
     public function getPostById(Request $request)
     {
         $postId = (int) $request->requirements[0];
@@ -51,6 +59,10 @@ class AdminPostController extends AbstractController
         ]));
     }
 
+    /**
+     * Adds a new Post admin-side
+     * @param Request $request
+     */
     public function addPost(Request $request)
     {
         switch ($request->method) {
@@ -76,9 +88,17 @@ class AdminPostController extends AbstractController
                         var_dump($exception->getMessage());
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
+
         }
     }
 
+    /**
+     * Deletes a single Post (by Id) admin-side
+     * @param Request $request
+     */
     public function removePost(Request $request)
     {
         $postId = (int) $request->requirements[0];
@@ -90,6 +110,10 @@ class AdminPostController extends AbstractController
         }
     }
 
+    /**
+     * Updates a single Post (by Id) admin-side
+     * @param Request $request
+     */
     public function updatePost(Request $request)
     {
         $postId = (int) $request->requirements[0];
@@ -122,9 +146,17 @@ class AdminPostController extends AbstractController
                         print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Creates a Post from the Request parameters
+     * @param Request $request
+     * @return Post
+     */
     private function hydratePost(Request $request): Post
     {
         $post = new Post();

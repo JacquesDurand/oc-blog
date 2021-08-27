@@ -9,28 +9,28 @@ use DateTime;
 class Comment
 {
     /** @var int */
-    private $id;
+    private int $id;
 
     /** @var string */
-    private $content;
+    private string $content;
 
     /** @var int */
-    private $state;
+    private int $state;
 
     /** @var string|null */
-    private $moderationReason;
+    private ?string $moderationReason;
 
     /** @var User */
-    private $author;
+    private User $author;
 
     /** @var Post */
-    private $post;
+    private Post $post;
 
     /** @var DateTime */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /** @var DateTime */
-    private $updatedAt;
+    private DateTime $updatedAt;
 
     public const STATE_MODERATED = 0;
     public const STATE_AWAITING_MODERATION = 1;

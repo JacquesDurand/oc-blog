@@ -7,10 +7,10 @@ namespace App\Model;
 class Category
 {
     /** @var int|null */
-    private $id;
+    private ?int $id;
 
     /** @var string */
-    private $name;
+    private string $name;
 
     /**
      * @return string

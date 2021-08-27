@@ -13,6 +13,9 @@ trait DbInstanceTrait
     /** @var PDO  */
     protected PDO $dbInstance;
 
+    /**
+     * Connects to the Db instance and sets attributes
+     */
     public function connect()
     {
         $this->dbInstance = DbSingleton::getInstance()->getConnection();

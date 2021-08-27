@@ -29,6 +29,10 @@ class LoginFormValidator
         $this->securityService = new SecurityService();
     }
 
+    /**
+     * Checks if the form is Valid
+     * @throws \Exception
+     */
     public function isLoginFormValid(Request $request): bool
     {
         /** @var User $user */
@@ -45,6 +49,12 @@ class LoginFormValidator
         );
     }
 
+    /**
+     * Returns the form Errors if the form is not valid
+     * @param Request $request
+     * @return LoginFormError
+     * @throws \Exception
+     */
     public function getLoginFormErrors(Request $request): LoginFormError
     {
         $error = new LoginFormError();

@@ -15,7 +15,7 @@ require_once __DIR__.'/../../../../vendor/autoload.php';
 class AdminUserController extends AbstractController
 {
     /** @var UserManager */
-    private $userManager;
+    private UserManager $userManager;
 
     public function __construct()
     {
@@ -23,6 +23,10 @@ class AdminUserController extends AbstractController
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Renders all Users admin-side
+     * @param Request $request
+     */
     public function getAllUsers(Request $request)
     {
         $users = $this->userManager->getAllUsers();
@@ -33,6 +37,10 @@ class AdminUserController extends AbstractController
         }
     }
 
+    /**
+     * Create a new User admin-side
+     * @param Request $request
+     */
     public function addUser(Request $request)
     {
         switch ($request->method) {
@@ -51,9 +59,16 @@ class AdminUserController extends AbstractController
                     $this->userManager->createUser($request->request);
                     header("Location: http://localhost/admin/users");
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Renders a single User (by Id) admin-side
+     * @param Request $request
+     */
     public function getUserById(Request $request)
     {
         $userId = (int)$request->requirements[0];
@@ -62,6 +77,10 @@ class AdminUserController extends AbstractController
         }
     }
 
+    /**
+     * Deletes a single User (by Id) admin-side
+     * @param Request $request
+     */
     public function deleteUser(Request $request)
     {
         $userId = (int)$request->requirements[0];
@@ -73,6 +92,10 @@ class AdminUserController extends AbstractController
         }
     }
 
+    /**
+     * Updates a single User (by Id) admin-side
+     * @param Request $request
+     */
     public function updateUser(Request $request)
     {
         $userId = (int) $request->requirements[0];
@@ -102,9 +125,16 @@ class AdminUserController extends AbstractController
                         print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Approves the account creation of a User (by Id) admin-side
+     * @param Request $request
+     */
     public function verifyUser(Request $request)
     {
         $userId = (int) $request->requirements[0];

@@ -20,6 +20,10 @@ class RegisterFormValidator
         $this->userManager = new UserManager();
     }
 
+    /**
+     * Checks if the form is valid
+     * @throws \Exception
+     */
     public function isRegisterFormValid(Request $request): bool
     {
         return (
@@ -32,6 +36,12 @@ class RegisterFormValidator
         );
     }
 
+    /**
+     * Returns the form errors when the form is not valid
+     * @param Request $request
+     * @return RegisterFormError
+     * @throws \Exception
+     */
     public function getRegisterFormErrors(Request $request): RegisterFormError
     {
         $error = new RegisterFormError();

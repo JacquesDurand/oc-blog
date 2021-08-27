@@ -9,28 +9,28 @@ use DateTime;
 class User
 {
     /** @var int */
-    private $id;
+    private int $id;
 
     /** @var string */
-    private $userName;
+    private string $userName;
 
     /** @var string */
-    private $password;
+    private string $password;
 
     /** @var string */
-    private $email;
+    private string $email;
 
     /** @var int */
-    private $role;
+    private int $role;
 
     /** @var DateTime */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /** @var DateTime */
-    private $updatedAt;
+    private DateTime $updatedAt;
 
     /** @var DateTime */
-    private $lastActivity;
+    private DateTime $lastActivity;
 
     /**
      * @return int

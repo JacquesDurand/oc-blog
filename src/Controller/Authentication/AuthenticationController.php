@@ -37,6 +37,10 @@ class AuthenticationController extends AbstractController
         $this->loginFormValidator = new LoginFormValidator();
     }
 
+    /**
+     * Creates a new (unverified yet) account
+     * @param Request $request
+     */
     public function register(Request $request)
     {
         switch ($request->method) {
@@ -68,10 +72,16 @@ class AuthenticationController extends AbstractController
                         print_r($exception->getMessage());
                     }
                 }
-
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Connect to a User's account with credentials
+     * @param Request $request
+     */
     public function login(Request $request)
     {
         switch ($request->method) {
@@ -108,9 +118,16 @@ class AuthenticationController extends AbstractController
                     $_SESSION['role'] = $user->getRole();
                     header('Location: http://localhost');
                 }
+                break;
+            default:
+                print_r($this->render('Errors/404.html.twig'));
         }
     }
 
+    /**
+     * Disconnects from your account
+     * @param Request $request
+     */
     public function logout(Request $request)
     {
         $_SESSION['userId'] = null;
