@@ -117,7 +117,15 @@ DB_PORT= 5432
 DB_NAME= 'mydb'
 DB_USERNAME= 'myUser'
 DB_PASSWORD= 'myPassword'
+MAIL_TO= 'my-email@gmail.com'
 ```
+Where:  
+```dotenv
+MAIL_TO
+```
+is your mail for receiving messages through the blog's contact form.  
+Be aware though that for this form to really send you email, the machine where you host your project must have
+an SMTP server ready.
 
 ## Getting Started
 

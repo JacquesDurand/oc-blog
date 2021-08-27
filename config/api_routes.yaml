@@ -121,3 +121,13 @@ Home:
     methods: ['GET']
     controller: App\Controller\Home\HomePageController
     action: index
+
+##############
+#   Contact  #
+##############
+
+Contact:
+    path: /contact
+    methods: ['GET', 'POST']
+    controller: App\Controller\Contact\ContactController
+    action: contact

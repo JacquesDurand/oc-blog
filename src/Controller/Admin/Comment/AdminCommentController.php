@@ -37,7 +37,7 @@ class AdminCommentController extends AbstractController
     public function getAllComments(Request $request)
     {
         $comments = $this->commentManager->getAllComments();
-        print_r( $this->render('Admin/Comment/show.html.twig', [
+        print_r($this->render('Admin/Comment/show.html.twig', [
             'comments' => $comments,
             'posts' => $this->postManager->getAllPosts()
         ]));
@@ -47,11 +47,11 @@ class AdminCommentController extends AbstractController
     {
         $commentId = (int) $request->requirements[0];
         if ($comment = $this->commentManager->getCommentById($commentId)) {
-            print_r( $this->render('Admin/Comment/show_one.html.twig', [
+            print_r($this->render('Admin/Comment/show_one.html.twig', [
                 'comment' => $comment
             ]));
         } else {
-            print_r( $this->render('Errors/404_resource.html.twig'));
+            print_r($this->render('Errors/404_resource.html.twig'));
         }
     }
 
@@ -63,18 +63,18 @@ class AdminCommentController extends AbstractController
                 if ($post = $this->postManager->getPostById($postId)) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('Admin/Comment/form.html.twig', [
+                    print_r($this->render('Admin/Comment/form.html.twig', [
                        'post' => $post,
                        'token' => $csrfToken,
 
                     ]));
                 } else {
-                    print_r( $this->render('Errors/404_resource.html.twig'));
+                    print_r($this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $comment = $this->hydrateCommentFromRequest($request);
@@ -98,18 +98,18 @@ class AdminCommentController extends AbstractController
                 if ($comment) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('Admin/Comment/update.html.twig', [
+                    print_r($this->render('Admin/Comment/update.html.twig', [
                        'comment' => $comment,
                        'token' => $csrfToken,
                         'post' => $comment->getPost()
                     ]));
                 } else {
-                    print_r( $this->render('Errors/404_resource.html.twig'));
+                    print_r($this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $comment->setContent($request->request['content']);
@@ -117,7 +117,7 @@ class AdminCommentController extends AbstractController
                         $this->commentManager->updateComment($comment);
                         header('Location: http://localhost/admin/comments');
                     } catch (ResourceNotFoundException $exception) {
-                        print_r( $this->render('Errors/404_resource.html.twig'));
+                        print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }
@@ -131,24 +131,24 @@ class AdminCommentController extends AbstractController
                 if ($comment = $this->commentManager->getCommentById($commentId)) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('Admin/Comment/moderate.html.twig', [
+                    print_r($this->render('Admin/Comment/moderate.html.twig', [
                         'comment' => $comment,
                         'token' => $csrfToken
                     ]));
                 } else {
-                    print_r( $this->render('Errors/404_resource.html.twig'));
+                    print_r($this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     try {
                         $this->cleanInput($request);
                         $this->commentManager->moderateComment($commentId, $request->request['moderationReason']);
                         header('Location: http://localhost/admin/comments');
                     } catch (ResourceNotFoundException $exception) {
-                        print_r( $this->render('Errors/404_resource.html.twig'));
+                        print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }
@@ -161,7 +161,7 @@ class AdminCommentController extends AbstractController
             $this->commentManager->approveComment($commentId);
             header('Location: http://localhost/admin/comments');
         } catch (ResourceNotFoundException $exception) {
-            print_r( $this->render('Errors/404_resource.html.twig'));
+            print_r($this->render('Errors/404_resource.html.twig'));
         }
     }
 

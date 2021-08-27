@@ -38,7 +38,7 @@ class AdminPostController extends AbstractController
     public function getAllPosts(Request $request)
     {
         $posts = $this->postManager->getAllPosts();
-        print_r( $this->render('Admin/Post/show.html.twig', [
+        print_r($this->render('Admin/Post/show.html.twig', [
                 'posts' => $posts
             ]));
     }
@@ -46,7 +46,7 @@ class AdminPostController extends AbstractController
     public function getPostById(Request $request)
     {
         $postId = (int) $request->requirements[0];
-        print_r( $this->render('Admin/Post/show_one.html.twig', [
+        print_r($this->render('Admin/Post/show_one.html.twig', [
             'post' => $this->postManager->getPostById($postId)
         ]));
     }
@@ -57,7 +57,7 @@ class AdminPostController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 $csrfToken = $_SESSION['csrf_token'];
-                print_r( $this->render('Admin/Post/form.html.twig', [
+                print_r($this->render('Admin/Post/form.html.twig', [
                     'token' => $csrfToken,
                     'categories' => $this->categoryManager->getAllCategories(),
                     'authors' => $this->userManager->getAllAdminUsers()
@@ -65,7 +65,7 @@ class AdminPostController extends AbstractController
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $post = $this->hydratePost($request);
@@ -84,9 +84,9 @@ class AdminPostController extends AbstractController
         $postId = (int) $request->requirements[0];
         try {
             $this->postManager->deletePost($postId);
-            print_r( $this->render('Admin/Post/show.html.twig'));
+            print_r($this->render('Admin/Post/show.html.twig'));
         } catch (ResourceNotFoundException $exception) {
-            print_r( $this->render('Errors/404_resource.html.twig'));
+            print_r($this->render('Errors/404_resource.html.twig'));
         }
     }
 
@@ -99,19 +99,19 @@ class AdminPostController extends AbstractController
                 if ($post = $this->postManager->getPostById($postId)) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('Admin/Post/update.html.twig', [
+                    print_r($this->render('Admin/Post/update.html.twig', [
                         'post' => $post,
                         'token' => $csrfToken ,
                         'categories' => $this->categoryManager->getAllCategories(),
                         'authors' => $this->userManager->getAllAdminUsers()
                     ]));
                 } else {
-                    print_r( $this->render('Errors/404_resource.html.twig'));
+                    print_r($this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $post = $this->hydratePost($request);
@@ -119,7 +119,7 @@ class AdminPostController extends AbstractController
                         $this->postManager->updatePost($postId, $post);
                         header('Location: http://localhost/admin/posts');
                     } catch (ResourceNotFoundException $exception) {
-                        print_r( $this->render('Errors/404_resource.html.twig'));
+                        print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }

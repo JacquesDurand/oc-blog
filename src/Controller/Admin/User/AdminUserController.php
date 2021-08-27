@@ -27,9 +27,9 @@ class AdminUserController extends AbstractController
     {
         $users = $this->userManager->getAllUsers();
         if ($users) {
-            print_r( $this->render('/Admin/User/show.html.twig', ['users' => $users]));
+            print_r($this->render('/Admin/User/show.html.twig', ['users' => $users]));
         } else {
-            print_r( $this->render('/Admin/User/show.html.twig'));
+            print_r($this->render('/Admin/User/show.html.twig'));
         }
     }
 
@@ -39,13 +39,13 @@ class AdminUserController extends AbstractController
             case 'GET':
                 $this->generateCsrfToken($request);
                 $csrfToken = $_SESSION['csrf_token'];
-                print_r( $this->render('Admin/User/form.html.twig', [
+                print_r($this->render('Admin/User/form.html.twig', [
                     'token' => $csrfToken
                 ]));
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     $this->cleanInput($request);
                     $this->userManager->createUser($request->request);
@@ -58,7 +58,7 @@ class AdminUserController extends AbstractController
     {
         $userId = (int)$request->requirements[0];
         if ($user = $this->userManager->getUserById($userId)) {
-            print_r( $this->render('/Admin/User/show_one.html.twig', ['user' => $user]));
+            print_r($this->render('/Admin/User/show_one.html.twig', ['user' => $user]));
         }
     }
 
@@ -67,9 +67,9 @@ class AdminUserController extends AbstractController
         $userId = (int)$request->requirements[0];
         try {
             $this->userManager->deleteUser($userId);
-            print_r( $this->render('/Admin/User/show.html.twig'));
+            print_r($this->render('/Admin/User/show.html.twig'));
         } catch (ResourceNotFoundException $exception) {
-            print_r( $this->render('Errors/404_resource.html.twig'));
+            print_r($this->render('Errors/404_resource.html.twig'));
         }
     }
 
@@ -82,24 +82,24 @@ class AdminUserController extends AbstractController
                 if ($user = $this->userManager->getUserById($userId)) {
                     $this->generateCsrfToken($request);
                     $csrfToken = $_SESSION['csrf_token'];
-                    print_r( $this->render('/Admin/User/update.html.twig', [
+                    print_r($this->render('/Admin/User/update.html.twig', [
                         'user' => $user,
                         'token' => $csrfToken
                     ]));
                 } else {
-                    print_r( $this->render('Errors/404_resource.html.twig'));
+                    print_r($this->render('Errors/404_resource.html.twig'));
                 }
                 break;
             case 'POST':
                 if (!$this->verifyCsrfToken($request)) {
-                    print_r( $this->render('Errors/Csrf.html.twig'));
+                    print_r($this->render('Errors/Csrf.html.twig'));
                 } else {
                     try {
                         $this->cleanInput($request);
                         $this->userManager->updateUser($userId, $request->request);
                         header("Location: http://localhost/admin/users");
                     } catch (ResourceNotFoundException $exception) {
-                        print_r( $this->render('Errors/404_resource.html.twig'));
+                        print_r($this->render('Errors/404_resource.html.twig'));
                     }
                 }
         }
@@ -112,7 +112,7 @@ class AdminUserController extends AbstractController
             $this->userManager->verifyUser($userId);
             header('Location: http://localhost/admin/users');
         } catch (ResourceNotFoundException $exception) {
-            print_r( $this->render('Errors/404_resource.html.twig'));
+            print_r($this->render('Errors/404_resource.html.twig'));
         }
     }
 }
