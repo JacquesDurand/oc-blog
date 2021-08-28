@@ -124,6 +124,7 @@ class UserController extends AbstractController
     /**
      * Updates the connected User's password
      * @param Request $request
+     * @throws \Exception
      */
     public function updatePassword(Request $request)
     {

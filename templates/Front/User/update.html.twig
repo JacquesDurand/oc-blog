@@ -26,12 +26,32 @@
                                class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                                placeholder="Votre nouveau pseudo ..." value="{{ user.username }}">
                     </div>
+                    {% if errors.missingUsername %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Veuillez remplir ce champ
+                        </p>
+                    {% endif %}
+                    {% if errors.usernameUsed %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Ce pseudo est déjà utilisé
+                        </p>
+                    {% endif %}
                     <div class="p-2">
                         <label for="email" class="text-base text-gray-500 italic p-2">Email</label>
                         <input id="email" name="email" type="email" required
                                class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                                placeholder="Votre nouvel email ..." value="{{ user.email }}">
                     </div>
+                    {% if errors.missingEmail %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Veuillez remplir ce champ
+                        </p>
+                    {% endif %}
+                    {% if errors.emailUsed %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Ce pseudo est déjà utilisé
+                        </p>
+                    {% endif %}
                 </div>
                 <div>
                     <button type="submit"

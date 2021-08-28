@@ -81,6 +81,7 @@ class AuthenticationController extends AbstractController
     /**
      * Connect to a User's account with credentials
      * @param Request $request
+     * @throws \Exception
      */
     public function login(Request $request)
     {

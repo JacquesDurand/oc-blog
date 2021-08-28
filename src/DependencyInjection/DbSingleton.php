@@ -12,7 +12,7 @@ use PDO;
 class DbSingleton
 {
     /** @var DbSingleton */
-    private static DbSingleton $instance;
+    private static $instance;
 
     /** @var DbService */
     private DbService $dbService;
