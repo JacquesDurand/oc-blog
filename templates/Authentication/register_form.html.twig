@@ -25,6 +25,16 @@
                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                placeholder="Pseudo">
                     </div>
+                    {% if errors.missingUsername %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Veuillez remplir ce champ
+                        </p>
+                    {% endif %}
+                    {% if errors.usernameUsed %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Ce pseudo est déjà utilisé
+                        </p>
+                    {% endif %}
                     <br>
                     <div>
                         <label for="email" class="sr-only">Email</label>
@@ -32,6 +42,16 @@
                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                placeholder="Email">
                     </div>
+                    {% if errors.missingEmail %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Veuillez remplir ce champ
+                        </p>
+                    {% endif %}
+                    {% if errors.emailUsed %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Cet email est déjà utilisé
+                        </p>
+                    {% endif %}
                     <br>
                     <div>
                         <label for="password" class="sr-only">Password</label>
@@ -39,6 +59,16 @@
                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                placeholder="Mot de passe">
                     </div>
+                    {% if errors.missingPassword %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Veuillez remplir ce champ
+                        </p>
+                    {% endif %}
+                    {% if errors.passwordInvalid %}
+                        <p class="mt-2 text-center text-sm text-red-700">
+                            Votre mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre
+                        </p>
+                    {% endif %}
                 </div>
 
                 <div>
